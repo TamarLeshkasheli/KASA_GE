@@ -7,7 +7,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class ProgrammingResponse : FiscalResponse
     {
-        public ProgrammingResponse(byte[] buffer) : base(buffer)
+        public ProgrammingResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length == 0) return;

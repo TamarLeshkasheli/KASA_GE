@@ -8,7 +8,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class GetStatusOfCurrentReceiptResponse : FiscalResponse
     {
-        public GetStatusOfCurrentReceiptResponse(byte[] buffer) : base(buffer)
+        public GetStatusOfCurrentReceiptResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length == 0) return;

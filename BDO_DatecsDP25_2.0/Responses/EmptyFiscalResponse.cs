@@ -7,6 +7,6 @@ namespace BDO_DatecsDP25.Responses
 {
     public class EmptyFiscalResponse : FiscalResponse
     {
-        public EmptyFiscalResponse(byte[] buffer) : base(buffer) { }
+        public EmptyFiscalResponse(FP700Result buffer) : base(buffer) { }
     }
 }

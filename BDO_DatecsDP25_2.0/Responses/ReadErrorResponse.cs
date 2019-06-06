@@ -7,7 +7,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class ReadErrorResponse : FiscalResponse
     {
-        public ReadErrorResponse(byte[] buffer) : base(buffer)
+        public ReadErrorResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length == 0) return;

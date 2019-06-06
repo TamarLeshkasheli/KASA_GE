@@ -7,7 +7,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class OpenFiscalReceiptResponse : FiscalResponse
     {
-        public OpenFiscalReceiptResponse(byte[] buffer) : base(buffer)
+        public OpenFiscalReceiptResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length == 0) return;
