@@ -583,14 +583,14 @@ namespace BDO_DatecsDP25
         #endregion
     }
 
-    internal class FP700Result
+    public class FP700Result
     {
         public readonly byte seq;
         public readonly int cmd;
-        public readonly string data;
+        public readonly byte[] data;
         public readonly byte[] status;
 
-        public FP700Result(byte seq, int cmd, string data, byte[] status)
+        public FP700Result(byte seq, int cmd, byte[] data, byte[] status)
         {
             this.seq = seq;
             this.cmd = cmd;
@@ -599,7 +599,7 @@ namespace BDO_DatecsDP25
         }
     }
 
-    internal class Fp700Printer : IDisposable
+    public class Fp700Printer : IDisposable
     {
         private const int Nak = 0x15;
         private const int Syn = 0x16;
@@ -713,7 +713,7 @@ namespace BDO_DatecsDP25
             var cmd = message.Slice(6, 10);
             var data = message.Slice(10, -15);
             var status = message.Slice(-14, -6);
-            return new FP700Result(seq, UnQuarterize(cmd), Encoding.GetEncoding(1251).GetString(data), status);
+            return new FP700Result(seq, UnQuarterize(cmd), data, status);
         }
 
         private static byte[] Quarterize(int value)
