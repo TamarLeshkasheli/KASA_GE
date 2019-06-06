@@ -8,7 +8,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class CashInCashOutResponse : FiscalResponse
     {
-        public CashInCashOutResponse(byte[] buffer) : base(buffer)
+        public CashInCashOutResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length == 0) return;

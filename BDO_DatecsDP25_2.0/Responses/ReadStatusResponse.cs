@@ -7,7 +7,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class ReadStatusResponse : FiscalResponse
     {
-        public ReadStatusResponse(byte[] buffer) : base(buffer)
+        public ReadStatusResponse(FP700Result buffer) : base(buffer)
         {
             if (!CommandPassed) return;
             var list = new List<string>();

@@ -14,7 +14,14 @@ namespace BDO_DatecsDP25
     {
         //private ObservableCollection<string> PortNames { get; set; }
         private Dp25 _Dp25;
-
+        public void AddLogger(Action<string> logger)
+        {
+            _Dp25.AddLogger(logger);
+        }
+        public void RemoveLogger(Action<string> logger)
+        {
+            _Dp25.RemoveLogger(logger);
+        }
         /// <summary>
         /// Dp25 ობიექტის ინიციალიზაცია
         /// </summary>

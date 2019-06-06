@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,29 @@ namespace BDO_DatecsDP25.Utils
         public static string GetString(this byte[] buffer)
         {
             return Encoding.GetEncoding(1251).GetString(buffer);
+        }
+    }
+    internal static class ByteArrayExtensions
+    {
+        public static byte[] Slice(this byte[] x)
+        {
+            return x.Slice(0);
+        }
+
+        public static byte[] Slice(this byte[] xs, int begin)
+        {
+            return xs.Slice(begin, xs.Length);
+        }
+
+        public static byte[] Slice(this byte[] xs, int begin, int end)
+        {
+            begin = begin < 0 ? xs.Length + begin : begin;
+            end = end < 0 ? xs.Length + end : end;
+            if (!(xs.Length >= end && end >= begin)) throw new InvalidOperationException();
+            var len = end - begin;
+            var rez = new byte[len];
+            Array.Copy(xs, begin, rez, 0, len);
+            return rez;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class LoadStampImageResponse : FiscalResponse
     {
-        public LoadStampImageResponse(byte[] buffer)
+        public LoadStampImageResponse(FP700Result buffer)
             : base(buffer)
         {
             var values = GetDataValues();

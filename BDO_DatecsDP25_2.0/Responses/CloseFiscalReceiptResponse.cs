@@ -7,7 +7,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class CloseFiscalReceiptResponse : FiscalResponse
     {
-        public CloseFiscalReceiptResponse(byte[] buffer) : base(buffer)
+        public CloseFiscalReceiptResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length < 3) return;

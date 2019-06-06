@@ -7,7 +7,7 @@ namespace BDO_DatecsDP25.Responses
 {
     public class CommonFiscalResponse : FiscalResponse
     {
-        public CommonFiscalResponse(byte[] buffer) : base(buffer)
+        public CommonFiscalResponse(FP700Result buffer) : base(buffer)
         {
             var values = GetDataValues();
             if (values.Length == 0) return;

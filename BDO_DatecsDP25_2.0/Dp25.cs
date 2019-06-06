@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Ports;
-using System.Linq;
-using System.Threading;
-using BDO_DatecsDP25.Commands;
+﻿using BDO_DatecsDP25.Commands;
 using BDO_DatecsDP25.Core;
 using BDO_DatecsDP25.Responses;
+using BDO_DatecsDP25.Utils;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace BDO_DatecsDP25
 {
@@ -15,10 +13,7 @@ namespace BDO_DatecsDP25
     /// </summary>
     public class Dp25 : IDisposable
     {
-        private SerialPort _port;
-        private int _sequence = 32;
-        private bool _innerReadStatusExecuted;
-        private readonly Queue<byte> _queue;
+        private FP700Printer printer;
 
         /// <summary>
         /// constructor
@@ -26,13 +21,7 @@ namespace BDO_DatecsDP25
         /// <param name="portName"></param>
         public Dp25(string portName)
         {
-            _queue = new Queue<byte>();
-            _port = new SerialPort(portName, 115200, Parity.None, 8, StopBits.One)
-            {
-                ReadTimeout = 500,
-                WriteTimeout = 500
-            };
-            _port.Open();
+            printer = new FP700Printer(portName);
         }
 
 
@@ -42,77 +31,35 @@ namespace BDO_DatecsDP25
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            if (_port == null) return;
-            if (_port.IsOpen)
-                _port.Close();
-            _port.Dispose();
-            _port = null;
+            using (printer) { }
+        }
+        private List<Action<string>> loggers = new List<Action<string>>();
+
+        public void AddLogger(Action<string> logger) {
+            loggers.Add(logger);
         }
 
+        public void RemoveLogger(Action<string> logger) {
+            loggers.Remove(logger);
+        }
 
-        private bool ReadByte()
+        public FP700Result SendMessage(int cmd, string data)
         {
-            var b = _port.ReadByte();
-            _queue.Enqueue((byte)b);
-            return b != 0x03;
+            loggers.ForEach(log => log(cmd + "->" + data));
+            var result = printer.Exec(cmd, data);
+            loggers.ForEach(log => log(
+                cmd + "<- " +
+                "0(" + Convert.ToString(result.status[0], 2) + ")" +
+                "1(" + Convert.ToString(result.status[1], 2) + ")" +
+                "2(" + Convert.ToString(result.status[2], 2) + ")" +
+                "3(" + Convert.ToString(result.status[3], 2) + ")" +
+                "4(" + Convert.ToString(result.status[4], 2) + ")" +
+                "5(" + Convert.ToString(result.status[5], 2) + ")"));
+            ThrowOnStatusError(result.status);
+            return result;
         }
 
-        private IFiscalResponse SendMessage(IWrappedMessage msg, Func<byte[], IFiscalResponse> responseFactory)
-        {
-            if (_innerReadStatusExecuted)
-                return _SendMessage(msg, responseFactory);
-
-            _SendMessage(new ReadStatusCommand(), bytes => null);
-            _innerReadStatusExecuted = true;
-            return _SendMessage(msg, responseFactory);
-        }
-
-        private IFiscalResponse _SendMessage(IWrappedMessage msg, Func<byte[], IFiscalResponse> responseFactory)
-        {
-            IFiscalResponse response = null;
-            byte[] lastStatusBytes = null;
-            var packet = msg.GetBytes(_sequence);
-            for (var r = 0; r < 3; r++)
-            {
-                try
-                {
-                    _port.Write(packet, 0, packet.Length);
-                    var list = new List<byte>();
-
-                    while (ReadByte())
-                    {
-                        var b = _queue.Dequeue();
-                        if (b == 22)
-                        {
-                            continue;
-                        }
-                        if (b == 21)
-                            throw new IOException("Invalid packet checksum or form of messsage.");
-                        list.Add(b);
-                    }
-
-                    list.Add(_queue.Dequeue());
-                    var buffer = list.ToArray();
-                    response = responseFactory(buffer);
-                    lastStatusBytes = list.Skip(list.IndexOf(0x04) + 1).Take(6).ToArray();
-                    break;
-                }
-                catch (Exception)
-                {
-                    if (r >= 2)
-                        throw;
-                    _queue.Clear();
-                }
-            }
-            _sequence += 1;
-            if (_sequence > 254)
-                _sequence = 32;
-            if (msg.Command != 74)
-                CheckStatusOnErrors(lastStatusBytes);
-            return response;
-        }
-
-        private void CheckStatusOnErrors(byte[] statusBytes)
+        private void ThrowOnStatusError(byte[] statusBytes)
         {
             if (statusBytes == null)
                 throw new ArgumentNullException("statusBytes");
@@ -145,23 +92,8 @@ namespace BDO_DatecsDP25
         /// <param name="portName">Name of the serial port.</param> 
         public void ChangePort(string portName)
         {
-            _port.Close();
-            _port.PortName = portName;
-            _port.Open();
-        }
-
-
-
-        /// <summary>
-        /// Executes custom command implementation and returns predefined custom response.
-        /// </summary>
-        /// <typeparam name="T">Response Type. Must be a child of an abstract class FiscalResponse</typeparam>
-        /// <param name="cmd">Command to execute. Must be a child of an abstract class WrappedMessage</param>
-        /// <returns>T</returns>
-        public T ExecuteCustomCommand<T>(WrappedMessage cmd) where T : FiscalResponse
-        {
-            return (T)SendMessage(cmd,
-                bytes => (FiscalResponse)Activator.CreateInstance(typeof(T), new object[] { bytes }));
+            printer.Dispose();
+            printer = new FP700Printer(portName);
         }
 
 
@@ -172,8 +104,9 @@ namespace BDO_DatecsDP25
         /// <returns>CommonFiscalResponse</returns>
         public CommonFiscalResponse OpenNonFiscalReceipt()
         {
-            return (CommonFiscalResponse)SendMessage(new OpenNonFiscalReceiptCommand()
-                , bytes => new CommonFiscalResponse(bytes));
+            var Command = 38;
+            var Data = string.Empty;
+            return new CommonFiscalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -183,8 +116,9 @@ namespace BDO_DatecsDP25
         /// <returns></returns>
         public CommonFiscalResponse AddTextToNonFiscalReceipt(string text)
         {
-            return (CommonFiscalResponse)SendMessage(new AddTextToNonFiscalReceiptCommand(text)
-                , bytes => new CommonFiscalResponse(bytes));
+            var Command = 42;
+            var Data = text + "\t";
+            return new CommonFiscalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -193,10 +127,10 @@ namespace BDO_DatecsDP25
         /// <returns>CommonFiscalResponse</returns>
         public CommonFiscalResponse CloseNonFiscalReceipt()
         {
-            return (CommonFiscalResponse)SendMessage(new CloseNonFiscalReceiptCommand()
-                , bytes => new CommonFiscalResponse(bytes));
+            var Command = 39;
+            var Data = string.Empty;
+            return new CommonFiscalResponse(SendMessage(Command, Data));
         }
-
         #endregion
 
         #region FiscalCommands
@@ -205,7 +139,9 @@ namespace BDO_DatecsDP25
 
         public SubTotalResponse SubTotal()
         {
-            return (SubTotalResponse)SendMessage(new SubTotalCommand(), bytes => new SubTotalResponse(bytes));
+            var Command = 51;
+            var Data = string.Empty;
+            return new SubTotalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -216,8 +152,9 @@ namespace BDO_DatecsDP25
         /// <returns>OpenFiscalReceiptResponse</returns>
         public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd)
         {
-            return (OpenFiscalReceiptResponse)SendMessage(new OpenFiscalReceiptCommand(opCode, opPwd)
-                , bytes => new OpenFiscalReceiptResponse(bytes));
+            var Command = 48;
+            var Data = (new object[] { opCode, opPwd, string.Empty, 0 }).StringJoin("\t");
+            return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -229,8 +166,9 @@ namespace BDO_DatecsDP25
         /// <returns>OpenFiscalReceiptResponse</returns>
         public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, ReceiptType type)
         {
-            return (OpenFiscalReceiptResponse)SendMessage(new OpenFiscalReceiptCommand(opCode, opPwd, (int)type)
-                , bytes => new OpenFiscalReceiptResponse(bytes));
+            var Command = 48;
+            var Data = (new object[] { opCode, opPwd, string.Empty, type }).StringJoin("\t");
+            return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -243,8 +181,9 @@ namespace BDO_DatecsDP25
         /// <returns>OpenFiscalReceiptResponse</returns>
         public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, ReceiptType type, int tillNumber)
         {
-            return (OpenFiscalReceiptResponse)SendMessage(new OpenFiscalReceiptCommand(opCode, opPwd, (int)type, tillNumber)
-                , bytes => new OpenFiscalReceiptResponse(bytes));
+            var Command = 48;
+            var Data = (new object[] { opCode, opPwd, tillNumber, type }).StringJoin("\t");
+            return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -258,13 +197,9 @@ namespace BDO_DatecsDP25
         /// <returns>RegisterSaleResponse</returns>
         public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, TaxCode taxCode = TaxCode.A)
         {
-            return (RegisterSaleResponse)SendMessage(
-                new RegisterSaleCommand(pluName
-                                        , (int)taxCode
-                                        , price
-                                        , departmentNumber
-                                        , quantity)
-                , bytes => new RegisterSaleResponse(bytes));
+            var Command = 49;
+            var Data = (new object[] { pluName, taxCode, price, quantity, 0, string.Empty, departmentNumber }).StringJoin("\t");
+            return new RegisterSaleResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -280,15 +215,9 @@ namespace BDO_DatecsDP25
         /// <returns>RegisterSaleResponse</returns>
         public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, DiscountType discountType, decimal discountValue, TaxCode taxCode = TaxCode.A)
         {
-            return (RegisterSaleResponse)SendMessage(
-                new RegisterSaleCommand(pluName
-                                        , (int)taxCode
-                                        , price
-                                        , departmentNumber
-                                        , quantity
-                                        , (int)discountType
-                                        , discountValue)
-                , bytes => new RegisterSaleResponse(bytes));
+            var Command = 49;
+            var Data = (new object[] { pluName, taxCode, price, quantity, discountType, discountValue, departmentNumber }).StringJoin("\t");
+            return new RegisterSaleResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -299,8 +228,9 @@ namespace BDO_DatecsDP25
         /// <returns>RegisterSaleResponse</returns>
         public RegisterSaleResponse RegisterProgrammedItemSale(int pluCode, decimal quantity)
         {
-            return (RegisterSaleResponse)SendMessage(new RegisterProgrammedItemSaleCommand(pluCode, quantity)
-                , bytes => new RegisterSaleResponse(bytes));
+            var Command = 58;
+            var Data = (new object[] { pluCode, quantity, string.Empty, string.Empty, string.Empty }).StringJoin("\t");
+            return new RegisterSaleResponse(SendMessage(Command, Data));
         }
         /// <summary>
         /// Adds new Item to open receipt
@@ -314,9 +244,9 @@ namespace BDO_DatecsDP25
         public RegisterSaleResponse RegisterProgrammedItemSale(int pluCode, decimal quantity, decimal price,
             DiscountType discountType, decimal discountValue)
         {
-            return (RegisterSaleResponse)SendMessage(
-                new RegisterProgrammedItemSaleCommand(pluCode, quantity, price, (int)discountType, discountValue)
-                , bytes => new RegisterSaleResponse(bytes));
+            var Command = 58;
+            var Data = (new object[] { pluCode, quantity, price, discountType, discountValue }).StringJoin("\t");
+            return new RegisterSaleResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -326,8 +256,11 @@ namespace BDO_DatecsDP25
         /// <returns>CalculateTotalResponse</returns>
         public CalculateTotalResponse Total(PaymentMode paymentMode = PaymentMode.Cash)
         {
-            return (CalculateTotalResponse)SendMessage(new CalculateTotalCommand((int)paymentMode, 0, (int)PaymentMode.Cash, true)
-                , bytes => new CalculateTotalResponse(bytes));
+            NumberFormatInfo Nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
+            var cashMoneyParam =string.Empty ;
+            var Command = 53;
+            var Data = (new object[] { paymentMode, cashMoneyParam }).StringJoin("\t");
+            return new CalculateTotalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -338,8 +271,11 @@ namespace BDO_DatecsDP25
 		/// <returns>CalculateTotalResponse</returns>
 		public CalculateTotalResponse Total(PaymentMode paymentMode1, decimal cashMoney, PaymentMode paymentMode2)
         {
-            return (CalculateTotalResponse)SendMessage(new CalculateTotalCommand((int)paymentMode1, cashMoney, (int)paymentMode2, false)
-                , bytes => new CalculateTotalResponse(bytes));
+            NumberFormatInfo Nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
+            var cashMoneyParam = cashMoney.ToString(Nfi);
+            var Command = 53;
+            var Data = (new object[] { paymentMode1, cashMoneyParam, paymentMode2 }).StringJoin("\t");
+            return new CalculateTotalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -349,15 +285,17 @@ namespace BDO_DatecsDP25
         /// <returns>VoidOpenFiscalReceiptResponse</returns>
         public VoidOpenFiscalReceiptResponse VoidOpenFiscalReceipt()
         {
-            return (VoidOpenFiscalReceiptResponse)SendMessage(new VoidOpenFiscalReceiptCommand()
-                , bytes => new VoidOpenFiscalReceiptResponse(bytes));
+            var Command = 60;
+            var Data = string.Empty;
+            return new VoidOpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
 
         public AddTextToFiscalReceiptResponse AddTextToFiscalReceipt(string text)
         {
-            return (AddTextToFiscalReceiptResponse)SendMessage(new AddTextToFiscalReceiptCommand(text)
-                , bytes => new AddTextToFiscalReceiptResponse(bytes));
+            var Command = 54;
+            var Data = text + "\t";
+            return new AddTextToFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -366,8 +304,9 @@ namespace BDO_DatecsDP25
         /// <returns>CloseFiscalReceiptResponse</returns>
         public CloseFiscalReceiptResponse CloseFiscalReceipt()
         {
-            return (CloseFiscalReceiptResponse)SendMessage(new CloseFiscalReceiptCommand()
-                , bytes => new CloseFiscalReceiptResponse(bytes));
+            var Command = 56;
+            var Data = string.Empty;
+            return new CloseFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -377,8 +316,9 @@ namespace BDO_DatecsDP25
         /// <returns>GetLastFiscalEntryInfoResponse</returns>
         public GetLastFiscalEntryInfoResponse GetLastFiscalEntryInfo(FiscalEntryInfoType type = FiscalEntryInfoType.CashDebit)
         {
-            return (GetLastFiscalEntryInfoResponse)SendMessage(new GetLastFiscalEntryInfoCommand((int)type)
-                , bytes => new GetLastFiscalEntryInfoResponse(bytes));
+            var Command = 64;
+            var Data = type + "\t";
+            return new GetLastFiscalEntryInfoResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -389,8 +329,9 @@ namespace BDO_DatecsDP25
         /// <returns>CashInCashOutResponse</returns>
         public CashInCashOutResponse CashInCashOutOperation(Cash operationType, decimal amount)
         {
-            return (CashInCashOutResponse)SendMessage(new CashInCashOutCommand((int)operationType, amount)
-                , bytes => new CashInCashOutResponse(bytes));
+            var Command = 70;
+            var Data = (new object[] { operationType, amount }).StringJoin("\t");
+            return new CashInCashOutResponse(SendMessage(Command, Data));
         }
         #endregion
 
@@ -401,8 +342,9 @@ namespace BDO_DatecsDP25
         /// <returns>ReadStatusResponse</returns>
         public ReadStatusResponse ReadStatus()
         {
-            return (ReadStatusResponse)SendMessage(new ReadStatusCommand()
-                , bytes => new ReadStatusResponse(bytes));
+            var Command = 74;
+            var Data = string.Empty;
+            return new ReadStatusResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -412,8 +354,9 @@ namespace BDO_DatecsDP25
         /// <returns>EmptyFiscalResponse</returns>
         public EmptyFiscalResponse FeedPaper(int lines = 1)
         {
-            return (EmptyFiscalResponse)SendMessage(new FeedPaperCommand(lines)
-                , bytes => new EmptyFiscalResponse(bytes));
+            var Command = 44;
+            var Data = lines + "\t";
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
 
 
@@ -423,8 +366,7 @@ namespace BDO_DatecsDP25
         /// <returns>EmptyFiscalResponse</returns>
         public EmptyFiscalResponse PrintBuffer()
         {
-            return (EmptyFiscalResponse)SendMessage(new FeedPaperCommand(0)
-                , bytes => new EmptyFiscalResponse(bytes));
+            return FeedPaper(0);
         }
 
         /// <summary>
@@ -434,8 +376,9 @@ namespace BDO_DatecsDP25
         /// <returns>ReadErrorResponse</returns>
         public ReadErrorResponse ReadError(string errorCode)
         {
-            return (ReadErrorResponse)SendMessage(new ReadErrorCommand(errorCode)
-                , bytes => new ReadErrorResponse(bytes));
+            var Command = 100;
+            var Data = errorCode + "\t";
+            return new ReadErrorResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -446,8 +389,9 @@ namespace BDO_DatecsDP25
         /// <returns>EmptyFiscalResponse</returns>
         public EmptyFiscalResponse PlaySound(int frequency, int interval)
         {
-            return (EmptyFiscalResponse)SendMessage(new PlaySoundCommand(frequency, interval)
-                , bytes => new EmptyFiscalResponse(bytes));
+            var Command = 80;
+            var Data = (new object[] { frequency, interval }).StringJoin("\t");
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -457,8 +401,9 @@ namespace BDO_DatecsDP25
         /// <returns>PrintReportResponse</returns>
         public PrintReportResponse PrintReport(ReportType type)
         {
-            return (PrintReportResponse)SendMessage(new PrintReportCommand(type.ToString())
-                , bytes => new PrintReportResponse(bytes));
+            var Command = 69;
+            var Data = type + "\t";
+            return new PrintReportResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -470,8 +415,9 @@ namespace BDO_DatecsDP25
         /// <returns>EmptyFiscalResponse</returns>
         public EmptyFiscalResponse OperatorsReport(string firstOper = "1", string lastOper = "30", string clear = "0")
         {
-            return (EmptyFiscalResponse)SendMessage(new OperatorsReportCommand(firstOper, lastOper, clear)
-                , bytes => new EmptyFiscalResponse(bytes));
+            var Command = 105;
+            var Data = (new object[] { firstOper, lastOper, clear }).StringJoin("\t");
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -481,8 +427,9 @@ namespace BDO_DatecsDP25
         /// <returns>EmptyFiscalResponse</returns>
         public EmptyFiscalResponse OpenDrawer(int impulseLength)
         {
-            return (EmptyFiscalResponse)SendMessage(new OpenDrawerCommand(impulseLength)
-                , bytes => new EmptyFiscalResponse(bytes));
+            var Command = 106;
+            var Data = impulseLength + "\t";
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
     
         /// <summary>
@@ -492,8 +439,9 @@ namespace BDO_DatecsDP25
         /// <returns>EmptyFiscalResponse</returns>
         public EmptyFiscalResponse SetDateTime(DateTime dateTime)
         {
-            return (EmptyFiscalResponse)SendMessage(new SetDateTimeCommand(dateTime)
-                , bytes => new EmptyFiscalResponse(bytes));
+            var Command = 61;
+            var Data = dateTime.ToString("dd-MM-yy HH:mm:ss") + "\t";
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -502,8 +450,9 @@ namespace BDO_DatecsDP25
         /// <returns>ReadDateTimeResponse</returns>
         public ReadDateTimeResponse ReadDateTime()
         {
-            return (ReadDateTimeResponse)SendMessage(new ReadDateTimeCommand()
-                , bytes => new ReadDateTimeResponse(bytes));
+            var Command = 62;
+            var Data = string.Empty;
+            return new ReadDateTimeResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -512,10 +461,9 @@ namespace BDO_DatecsDP25
         /// <returns>GetStatusOfCurrentReceiptResponse</returns>
         public GetStatusOfCurrentReceiptResponse GetStatusOfCurrentReceipt()
         {
-            return
-                (GetStatusOfCurrentReceiptResponse)
-                    SendMessage(new GetStatusOfCurrentReceiptCommand()
-                        , bytes => new GetStatusOfCurrentReceiptResponse(bytes));
+            var Command = 76;
+            var Data = string.Empty;
+            return new GetStatusOfCurrentReceiptResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -532,8 +480,9 @@ namespace BDO_DatecsDP25
         /// <returns></returns>
         public EmptyFiscalResponse ProgramItem(string name, int plu, TaxGr taxGr, int dep, int group, decimal price, decimal quantity = 9999, PriceType priceType = PriceType.FixedPrice)
         {
-            return (EmptyFiscalResponse)SendMessage(new ProgramItemCommand(name, plu, taxGr, dep, group, price, quantity, priceType)
-                , bytes => new EmptyFiscalResponse(bytes));
+            var Command = 107;
+            var Data = (new object[] { "P", plu, taxGr, dep, group, (int)priceType, price, "", quantity, "", "", "", "", name }).StringJoin("\t");
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -545,11 +494,9 @@ namespace BDO_DatecsDP25
         /// <returns>ProgrammingResponse</returns>
         public ProgrammingResponse Programming(string name, string index, string value)
         {
-            return (ProgrammingResponse)SendMessage(
-                new ProgrammingCommand(name
-                                        , index
-                                        , value)
-                , bytes => new ProgrammingResponse(bytes));
+            var Command = 255;
+            var Data = (new object[] { name, index, value }).StringJoin("\t");
+            return new ProgrammingResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -560,9 +507,9 @@ namespace BDO_DatecsDP25
         /// <returns>ErrorCode - Indicates an error code. If command passed, ErrorCode is 0</returns>
         public PrintStampResponse PrintStamp(CommandType type, string name)
         {
-            return (PrintStampResponse)SendMessage(
-                 new PrintStampCommand((int)type, name)
-                 , bytes => new PrintStampResponse(bytes));
+            var Command = 127;
+            var Data = (new object[] { type, name }).StringJoin("\t");
+            return new PrintStampResponse(SendMessage(Command, Data));
         }
 
         /// <summary>
@@ -573,11 +520,12 @@ namespace BDO_DatecsDP25
         /// <returns> Answer(2): ErrorCode - Indicates an error code. If command passed, ErrorCode is 0; Chechsum - Sum of decoded base64 data;</returns>
         public LoadStampImageResponse LoadStampImage(String Parameter)
         {
-            return (LoadStampImageResponse)SendMessage(
-                 new LoadStampImageCommand(Parameter)
-                 , bytes => new LoadStampImageResponse(bytes));
+            var Command = 203;
+            var Data = Parameter + "\t";
+            return new LoadStampImageResponse(SendMessage(Command, Data));
         }
 
         #endregion
     }
-}
+
+    }
