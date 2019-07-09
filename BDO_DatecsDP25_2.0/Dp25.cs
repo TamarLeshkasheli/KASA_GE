@@ -1,5 +1,4 @@
-﻿using BDO_DatecsDP25.Commands;
-using BDO_DatecsDP25.Core;
+﻿using BDO_DatecsDP25.Core;
 using BDO_DatecsDP25.Responses;
 using BDO_DatecsDP25.Utils;
 using System;
@@ -164,10 +163,10 @@ namespace BDO_DatecsDP25
         /// <param name="opPwd">Operator password</param>
         /// <param name="type">Receipt type</param>
         /// <returns>OpenFiscalReceiptResponse</returns>
-        public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, ReceiptType type)
+        public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, Commands.ReceiptType type)
         {
             var Command = 48;
-            var Data = (new object[] { opCode, opPwd, string.Empty, type }).StringJoin("\t");
+            var Data = (new object[] { opCode, opPwd, string.Empty, (int)type }).StringJoin("\t");
             return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
@@ -179,10 +178,10 @@ namespace BDO_DatecsDP25
         /// <param name="type">Receipt type</param>
         /// <param name="tillNumber">Number of point of sale (1...999). Default: Logical number of the ECR in the workplace; </param>
         /// <returns>OpenFiscalReceiptResponse</returns>
-        public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, ReceiptType type, int tillNumber)
+        public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, Commands.ReceiptType type, int tillNumber)
         {
             var Command = 48;
-            var Data = (new object[] { opCode, opPwd, tillNumber, type }).StringJoin("\t");
+            var Data = (new object[] { opCode, opPwd, tillNumber, (int)type }).StringJoin("\t");
             return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
 
@@ -195,10 +194,10 @@ namespace BDO_DatecsDP25
         /// <param name="quantity"> Quantity. NOTE: Max value: {Quantity} * {Price} is 9999999.99</param>
         /// <param name="taxCode">Optional Parameter. Tax code: 1-A, 2-B, 3-C; default = TaxCode.A</param>
         /// <returns>RegisterSaleResponse</returns>
-        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, TaxCode taxCode = TaxCode.A)
+        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, Commands.TaxCode taxCode = Commands.TaxCode.A)
         {
             var Command = 49;
-            var Data = (new object[] { pluName, taxCode, price, quantity, 0, string.Empty, departmentNumber }).StringJoin("\t");
+            var Data = (new object[] { pluName, (int)taxCode, price, quantity, 0, string.Empty, departmentNumber }).StringJoin("\t");
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
 
@@ -213,10 +212,10 @@ namespace BDO_DatecsDP25
         /// <param name="discountValue">Discount Value. Percentage ( 0.00 - 100.00 ) for percentage operations; Amount ( 0.00 - 9999999.99 ) for value operations; Note: If {DiscountType} is given, {DiscountValue} must contain value. </param>
         /// <param name="taxCode">Optional Parameter. Tax code: 1-A, 2-B, 3-C; default = TaxCode.A</param>
         /// <returns>RegisterSaleResponse</returns>
-        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, DiscountType discountType, decimal discountValue, TaxCode taxCode = TaxCode.A)
+        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, Commands.DiscountType discountType, decimal discountValue, Commands.TaxCode taxCode = Commands.TaxCode.A)
         {
             var Command = 49;
-            var Data = (new object[] { pluName, taxCode, price, quantity, discountType, discountValue, departmentNumber }).StringJoin("\t");
+            var Data = (new object[] { pluName, (int)taxCode, price, quantity, (int)discountType, discountValue, departmentNumber }).StringJoin("\t");
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
 
@@ -242,10 +241,10 @@ namespace BDO_DatecsDP25
         /// <param name="discountValue">Discount Value. Percentage ( 0.00 - 100.00 ) for percentage operations; Amount ( 0.00 - 9999999.99 ) for value operations; Note: If {DiscountType} is given, {DiscountValue} must contain value. </param>
         /// <returns>RegisterSaleResponse</returns>
         public RegisterSaleResponse RegisterProgrammedItemSale(int pluCode, decimal quantity, decimal price,
-            DiscountType discountType, decimal discountValue)
+            Commands.DiscountType discountType, decimal discountValue)
         {
             var Command = 58;
-            var Data = (new object[] { pluCode, quantity, price, discountType, discountValue }).StringJoin("\t");
+            var Data = (new object[] { pluCode, quantity, price, (int)discountType, discountValue }).StringJoin("\t");
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
 
@@ -254,12 +253,12 @@ namespace BDO_DatecsDP25
         /// </summary>
         /// <param name="paymentMode"> Type of payment. Default: 'Cash' </param>
         /// <returns>CalculateTotalResponse</returns>
-        public CalculateTotalResponse Total(PaymentMode paymentMode = PaymentMode.Cash)
+        public CalculateTotalResponse Total(Commands.PaymentMode paymentMode = Commands.PaymentMode.Cash)
         {
             NumberFormatInfo Nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
             var cashMoneyParam =string.Empty ;
             var Command = 53;
-            var Data = (new object[] { paymentMode, cashMoneyParam }).StringJoin("\t");
+            var Data = (new object[] { (int)paymentMode, cashMoneyParam }).StringJoin("\t");
             return new CalculateTotalResponse(SendMessage(Command, Data));
         }
 
@@ -269,12 +268,12 @@ namespace BDO_DatecsDP25
 		/// <param name="paymentMode"> Type of payment. </param>
         /// <param name="paymentMode"> Amount to pay (0.00 - 9999999.99). Default: the residual sum of the receipt; </param>
 		/// <returns>CalculateTotalResponse</returns>
-		public CalculateTotalResponse Total(PaymentMode paymentMode1, decimal cashMoney, PaymentMode paymentMode2)
+		public CalculateTotalResponse Total(Commands.PaymentMode paymentMode1, decimal cashMoney, Commands.PaymentMode paymentMode2)
         {
             NumberFormatInfo Nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
             var cashMoneyParam = cashMoney.ToString(Nfi);
             var Command = 53;
-            var Data = (new object[] { paymentMode1, cashMoneyParam, paymentMode2 }).StringJoin("\t");
+            var Data = (new object[] { (int)paymentMode1, cashMoneyParam, (int)paymentMode2 }).StringJoin("\t");
             return new CalculateTotalResponse(SendMessage(Command, Data));
         }
 
@@ -314,10 +313,10 @@ namespace BDO_DatecsDP25
         /// </summary>
         /// <param name="type">FiscalEntryInfoType. Default: FiscalEntryInfoType.CashDebit</param>
         /// <returns>GetLastFiscalEntryInfoResponse</returns>
-        public GetLastFiscalEntryInfoResponse GetLastFiscalEntryInfo(FiscalEntryInfoType type = FiscalEntryInfoType.CashDebit)
+        public GetLastFiscalEntryInfoResponse GetLastFiscalEntryInfo(Commands.FiscalEntryInfoType type = Commands.FiscalEntryInfoType.CashDebit)
         {
             var Command = 64;
-            var Data = type + "\t";
+            var Data = ((int)type) + "\t";
             return new GetLastFiscalEntryInfoResponse(SendMessage(Command, Data));
         }
 
@@ -327,10 +326,10 @@ namespace BDO_DatecsDP25
         /// <param name="operationType">Type of operation</param>
         /// <param name="amount">The sum</param>
         /// <returns>CashInCashOutResponse</returns>
-        public CashInCashOutResponse CashInCashOutOperation(Cash operationType, decimal amount)
+        public CashInCashOutResponse CashInCashOutOperation(Commands.Cash operationType, decimal amount)
         {
             var Command = 70;
-            var Data = (new object[] { operationType, amount }).StringJoin("\t");
+            var Data = (new object[] { (int)operationType, amount }).StringJoin("\t");
             return new CashInCashOutResponse(SendMessage(Command, Data));
         }
         #endregion
@@ -399,10 +398,10 @@ namespace BDO_DatecsDP25
         /// </summary>
         /// <param name="type">ReportType</param>
         /// <returns>PrintReportResponse</returns>
-        public PrintReportResponse PrintReport(ReportType type)
+        public PrintReportResponse PrintReport(Commands.ReportType type)
         {
             var Command = 69;
-            var Data = type + "\t";
+            var Data = ((int)type) + "\t";
             return new PrintReportResponse(SendMessage(Command, Data));
         }
 
@@ -478,10 +477,10 @@ namespace BDO_DatecsDP25
         /// <param name="quantity"></param>
         /// <param name="priceType"></param>
         /// <returns></returns>
-        public EmptyFiscalResponse ProgramItem(string name, int plu, TaxGr taxGr, int dep, int group, decimal price, decimal quantity = 9999, PriceType priceType = PriceType.FixedPrice)
+        public EmptyFiscalResponse ProgramItem(string name, int plu, Commands.TaxGr taxGr, int dep, int group, decimal price, decimal quantity = 9999, Commands.PriceType priceType = Commands.PriceType.FixedPrice)
         {
             var Command = 107;
-            var Data = (new object[] { "P", plu, taxGr, dep, group, (int)priceType, price, "", quantity, "", "", "", "", name }).StringJoin("\t");
+            var Data = (new object[] { "P", plu, (int)taxGr, dep, group, (int)priceType, price, "", quantity, "", "", "", "", name }).StringJoin("\t");
             return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
 
@@ -505,10 +504,10 @@ namespace BDO_DatecsDP25
         /// <param name="type"> '0' - Print stamp;'1' - Rename loaded stamp with command 203. Default: '0'</param>
         /// <param name="name"> Name of stamp as filename in format 8.3;. Default: ""</param>
         /// <returns>ErrorCode - Indicates an error code. If command passed, ErrorCode is 0</returns>
-        public PrintStampResponse PrintStamp(CommandType type, string name)
+        public PrintStampResponse PrintStamp(Commands.CommandType type, string name)
         {
             var Command = 127;
-            var Data = (new object[] { type, name }).StringJoin("\t");
+            var Data = (new object[] { (int)type, name }).StringJoin("\t");
             return new PrintStampResponse(SendMessage(Command, Data));
         }
 
