@@ -401,7 +401,7 @@ namespace BDO_DatecsDP25
         public PrintReportResponse PrintReport(Commands.ReportType type)
         {
             var Command = 69;
-            var Data = ((int)type) + "\t";
+            var Data = (type) + "\t";
             return new PrintReportResponse(SendMessage(Command, Data));
         }
 

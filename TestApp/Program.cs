@@ -10,7 +10,7 @@ namespace TestApp
         {
             try
             {
-                testDP25();
+                testReport();
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
@@ -20,11 +20,23 @@ namespace TestApp
             //System.IO.File.AppendAllLines("cmd.log", new[] { "a", "b" });
         }
 
+        static void testReport()
+        {
+            using (var p = new Dp25("com10"))
+            {
+                p.AddLogger(str => {
+                    System.IO.File.AppendAllText("log01.txt", DateTime.Now.ToLongTimeString() + ":" + str + "\n");
+                });
+                p.PrintReport(BDO_DatecsDP25.Commands.ReportType.Z);
+                p.CloseFiscalReceipt();
+            }
+        }
+
         static void testDP25() {
             using(var p = new Dp25("com10"))
             {
                 p.AddLogger(str => {
-                    Console.WriteLine(str);
+                    System.IO.File.AppendAllText("log01.txt", DateTime.Now.ToLongTimeString() + ":" + str + "\n");
                 });
                 p.OpenFiscalReceipt("5", "5");
                 p.RegisterSale("ყველი", 11.6m, 1, 1, BDO_DatecsDP25.Commands.TaxCode.A);
