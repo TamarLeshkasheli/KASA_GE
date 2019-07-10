@@ -24,7 +24,7 @@ namespace TestApp
             using(var p = new Dp25("com10"))
             {
                 p.AddLogger(str => {
-                    Console.WriteLine(str);
+                    System.IO.File.AppendAllText("log01.txt", DateTime.Now.ToLongTimeString() + ":" + str + "\n");
                 });
                 p.OpenFiscalReceipt("5", "5");
                 p.RegisterSale("ყველი", 11.6m, 1, 1, BDO_DatecsDP25.Commands.TaxCode.A);
