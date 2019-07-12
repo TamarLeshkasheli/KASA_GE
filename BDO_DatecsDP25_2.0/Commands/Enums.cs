@@ -69,6 +69,7 @@ namespace BDO_DatecsDP25.Commands
 
     public enum DiscountType
     {
+        NoDiscount = 0,
         SurchargeByPercentage = 1,
         DiscountByPercentage = 2,
         SurchargeBySum = 3,

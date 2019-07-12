@@ -1,4 +1,5 @@
-﻿using BDO_DatecsDP25.Core;
+﻿using BDO_DatecsDP25.Commands;
+using BDO_DatecsDP25.Core;
 using BDO_DatecsDP25.Responses;
 using BDO_DatecsDP25.Utils;
 using System;
@@ -12,18 +13,21 @@ namespace BDO_DatecsDP25
     /// </summary>
     public class Dp25 : IDisposable
     {
-        private FP700Printer printer;
+        #region Impl
+        private IFP700Printer printer;
+        private readonly List<Action<string>> loggers = new List<Action<string>>();
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="portName"></param>
-        public Dp25(string portName)
+        public Dp25(string portName) : this(portName, new FP700Printer(portName))
         {
-            printer = new FP700Printer(portName);
         }
-
-
+        public Dp25(string portName, IFP700Printer p)
+        {
+            printer = p;
+        }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -32,19 +36,17 @@ namespace BDO_DatecsDP25
         {
             using (printer) { }
         }
-        private List<Action<string>> loggers = new List<Action<string>>();
-
-        public void AddLogger(Action<string> logger) {
+        public void AddLogger(Action<string> logger)
+        {
             loggers.Add(logger);
         }
-
-        public void RemoveLogger(Action<string> logger) {
+        public void RemoveLogger(Action<string> logger)
+        {
             loggers.Remove(logger);
         }
-
         public FP700Result SendMessage(int cmd, string data)
         {
-            loggers.ForEach(log => log(cmd + "->" + data));
+            loggers.ForEach(log => log(cmd + "->" + data.Replace("\t", "\\t")));
             var result = printer.Exec(cmd, data);
             loggers.ForEach(log => log(
                 cmd + "<- " +
@@ -56,6 +58,15 @@ namespace BDO_DatecsDP25
                 "5(" + Convert.ToString(result.status[5], 2) + ")"));
             ThrowOnStatusError(result.status);
             return result;
+        }
+        /// <summary> 
+        /// Changes port name at runtime. 
+        /// </summary> 
+        /// <param name="portName">Name of the serial port.</param> 
+        public void ChangePort(string portName)
+        {
+            printer.Dispose();
+            printer = new FP700Printer(portName);
         }
 
         private void ThrowOnStatusError(byte[] statusBytes)
@@ -83,20 +94,9 @@ namespace BDO_DatecsDP25
             if ((statusBytes[4] & 0x1) > 0)
                 throw new FiscalIOException("* Error while writing in FM.");
         }
+        #endregion
 
-
-        /// <summary> 
-        /// Changes port name at runtime. 
-        /// </summary> 
-        /// <param name="portName">Name of the serial port.</param> 
-        public void ChangePort(string portName)
-        {
-            printer.Dispose();
-            printer = new FP700Printer(portName);
-        }
-
-
-        #region NonFiscalCommands
+        #region Commands
         /// <summary>
         /// Opens non fiscal text receipt.
         /// </summary>
@@ -107,7 +107,16 @@ namespace BDO_DatecsDP25
             var Data = string.Empty;
             return new CommonFiscalResponse(SendMessage(Command, Data));
         }
-
+        /// <summary>
+        /// Closes non fiscal text receipt.
+        /// </summary>
+        /// <returns>CommonFiscalResponse</returns>
+        public CommonFiscalResponse CloseNonFiscalReceipt()
+        {
+            var Command = 39;
+            var Data = string.Empty;
+            return new CommonFiscalResponse(SendMessage(Command, Data));
+        }
         /// <summary>
         /// Printing of free text in a non-fiscal text receipt
         /// </summary>
@@ -119,30 +128,27 @@ namespace BDO_DatecsDP25
             var Data = text + "\t";
             return new CommonFiscalResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
-        /// Closes non fiscal text receipt.
+        /// Prints buffer
         /// </summary>
-        /// <returns>CommonFiscalResponse</returns>
-        public CommonFiscalResponse CloseNonFiscalReceipt()
+        /// <returns>EmptyFiscalResponse</returns>
+        public EmptyFiscalResponse PrintBuffer()
         {
-            var Command = 39;
-            var Data = string.Empty;
-            return new CommonFiscalResponse(SendMessage(Command, Data));
+            var Command = 44;
+            var Data = 0 + "\t";
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-        #endregion
-
-        #region FiscalCommands
-
-
-
-        public SubTotalResponse SubTotal()
+        /// <summary>
+        /// Feeds blank paper.
+        /// </summary>
+        /// <param name="lines">Line Count 1 to 99; default =  1;</param>
+        /// <returns>EmptyFiscalResponse</returns>
+        public EmptyFiscalResponse FeedPaper(int lines = 1)
         {
-            var Command = 51;
-            var Data = string.Empty;
-            return new SubTotalResponse(SendMessage(Command, Data));
+            var Command = 44;
+            var Data = lines + "\t";
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// Opens Sales Fiscal Receipt
         /// </summary>
@@ -152,10 +158,9 @@ namespace BDO_DatecsDP25
         public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd)
         {
             var Command = 48;
-            var Data = (new object[] { opCode, opPwd, string.Empty, 0 }).StringJoin("\t");
+            var Data = $"{opCode}\t{opPwd}\t\t\t";
             return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// Opens Fiscal Receipt
         /// </summary>
@@ -166,10 +171,9 @@ namespace BDO_DatecsDP25
         public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, Commands.ReceiptType type)
         {
             var Command = 48;
-            var Data = (new object[] { opCode, opPwd, string.Empty, (int)type }).StringJoin("\t");
+            var Data = $"{opCode}\t{opPwd}\t\t{(int)type}\t";
             return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// Opens Fiscal Receipt
         /// </summary>
@@ -181,10 +185,9 @@ namespace BDO_DatecsDP25
         public OpenFiscalReceiptResponse OpenFiscalReceipt(string opCode, string opPwd, Commands.ReceiptType type, int tillNumber)
         {
             var Command = 48;
-            var Data = (new object[] { opCode, opPwd, tillNumber, (int)type }).StringJoin("\t");
+            var Data = $"{opCode}\t{opPwd}\t{tillNumber}\t{(int)type}\t";
             return new OpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// Adds new Item to open receipt
         /// </summary>
@@ -194,13 +197,13 @@ namespace BDO_DatecsDP25
         /// <param name="quantity"> Quantity. NOTE: Max value: {Quantity} * {Price} is 9999999.99</param>
         /// <param name="taxCode">Optional Parameter. Tax code: 1-A, 2-B, 3-C; default = TaxCode.A</param>
         /// <returns>RegisterSaleResponse</returns>
-        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, Commands.TaxCode taxCode = Commands.TaxCode.A)
+        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber,
+            TaxCode taxCode = Commands.TaxCode.A)
         {
             var Command = 49;
-            var Data = (new object[] { pluName, (int)taxCode, price, quantity, 0, string.Empty, departmentNumber }).StringJoin("\t");
+            var Data = $"{pluName}\t{(int)taxCode}\t{price,0:0.00}\t{quantity}\t\t\t{departmentNumber}\t";
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// Adds new Item to open receipt
         /// </summary>
@@ -212,24 +215,58 @@ namespace BDO_DatecsDP25
         /// <param name="discountValue">Discount Value. Percentage ( 0.00 - 100.00 ) for percentage operations; Amount ( 0.00 - 9999999.99 ) for value operations; Note: If {DiscountType} is given, {DiscountValue} must contain value. </param>
         /// <param name="taxCode">Optional Parameter. Tax code: 1-A, 2-B, 3-C; default = TaxCode.A</param>
         /// <returns>RegisterSaleResponse</returns>
-        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber, Commands.DiscountType discountType, decimal discountValue, Commands.TaxCode taxCode = Commands.TaxCode.A)
+        public RegisterSaleResponse RegisterSale(string pluName, decimal price, decimal quantity, int departmentNumber,
+              DiscountType discountType, decimal discountValue,
+              TaxCode taxCode = Commands.TaxCode.A)
         {
             var Command = 49;
-            var Data = (new object[] { pluName, (int)taxCode, price, quantity, (int)discountType, discountValue, departmentNumber }).StringJoin("\t");
+            var Data = $"{pluName}\t{(int)taxCode}\t{price,0:0.00}\t{quantity}\t{(int)discountType}\t{discountValue,0:0.00}\t{departmentNumber}\t";
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
-
-        /// <summary>
-        /// Adds new Item to open receipt
-        /// </summary>
-        /// <param name="pluCode">The code of the item (1 - 100000). With sign '-' at void operations; </param>
-        /// <param name="quantity"> Quantity of the item (0.001 - 99999.999) </param>
-        /// <returns>RegisterSaleResponse</returns>
-        public RegisterSaleResponse RegisterProgrammedItemSale(int pluCode, decimal quantity)
+        public SubTotalResponse SubTotal()
         {
-            var Command = 58;
-            var Data = (new object[] { pluCode, quantity, string.Empty, string.Empty, string.Empty }).StringJoin("\t");
-            return new RegisterSaleResponse(SendMessage(Command, Data));
+            var Command = 51;
+            var Data = $"\t\t\t";
+            return new SubTotalResponse(SendMessage(Command, Data));
+        }
+        /// <summary>
+        /// Payments and calculation of the total sum
+        /// </summary>
+        /// <param name="paymentMode"> Type of payment. Default: 'Cash' </param>
+        /// <returns>CalculateTotalResponse</returns>
+        public CalculateTotalResponse Total(Commands.PaymentMode paymentMode = Commands.PaymentMode.Cash)
+        {
+            var Command = 53;
+            var Data = $"{(int)paymentMode}\t\t\t";
+            return new CalculateTotalResponse(SendMessage(Command, Data));
+        }
+        /// <summary>
+		/// Payments and calculation of the total sum
+		/// </summary>
+		/// <param name="paymentMode"> Type of payment. </param>
+        /// <param name="paymentMode"> Amount to pay (0.00 - 9999999.99). Default: the residual sum of the receipt; </param>
+		/// <returns>CalculateTotalResponse</returns>
+		public CalculateTotalResponse Total(Commands.PaymentMode paymentMode1, decimal cashMoney, PaymentMode paymentMode2)
+        {
+            var Command = 53;
+            var Data = $"{(int)paymentMode1}\t{cashMoney,0:0.00}\t";
+            return new CalculateTotalResponse(SendMessage(Command, Data));
+        }
+        public AddTextToFiscalReceiptResponse AddTextToFiscalReceipt(string text)
+        {
+            var Command = 54;
+            var Data = text + "\t";
+            return new AddTextToFiscalReceiptResponse(SendMessage(Command, Data));
+        }
+        /// <summary>
+        ///  Closes open fiscal receipt.
+        /// </summary>
+        /// <returns>CloseFiscalReceiptResponse</returns>
+        public CloseFiscalReceiptResponse CloseFiscalReceipt()
+        {
+            var Command = 56;
+            var Data = string.Empty;
+            return new CloseFiscalReceiptResponse(SendMessage(Command, Data));
         }
         /// <summary>
         /// Adds new Item to open receipt
@@ -247,36 +284,18 @@ namespace BDO_DatecsDP25
             var Data = (new object[] { pluCode, quantity, price, (int)discountType, discountValue }).StringJoin("\t");
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
-        /// Payments and calculation of the total sum
+        /// Adds new Item to open receipt
         /// </summary>
-        /// <param name="paymentMode"> Type of payment. Default: 'Cash' </param>
-        /// <returns>CalculateTotalResponse</returns>
-        public CalculateTotalResponse Total(Commands.PaymentMode paymentMode = Commands.PaymentMode.Cash)
+        /// <param name="pluCode">The code of the item (1 - 100000). With sign '-' at void operations; </param>
+        /// <param name="quantity"> Quantity of the item (0.001 - 99999.999) </param>
+        /// <returns>RegisterSaleResponse</returns>
+        public RegisterSaleResponse RegisterProgrammedItemSale(int pluCode, decimal quantity)
         {
-            NumberFormatInfo Nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
-            var cashMoneyParam =string.Empty ;
-            var Command = 53;
-            var Data = (new object[] { (int)paymentMode, cashMoneyParam }).StringJoin("\t");
-            return new CalculateTotalResponse(SendMessage(Command, Data));
+            var Command = 58;
+            var Data = (new object[] { pluCode, quantity, string.Empty, string.Empty, string.Empty }).StringJoin("\t");
+            return new RegisterSaleResponse(SendMessage(Command, Data));
         }
-
-        /// <summary>
-		/// Payments and calculation of the total sum
-		/// </summary>
-		/// <param name="paymentMode"> Type of payment. </param>
-        /// <param name="paymentMode"> Amount to pay (0.00 - 9999999.99). Default: the residual sum of the receipt; </param>
-		/// <returns>CalculateTotalResponse</returns>
-		public CalculateTotalResponse Total(Commands.PaymentMode paymentMode1, decimal cashMoney, Commands.PaymentMode paymentMode2)
-        {
-            NumberFormatInfo Nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
-            var cashMoneyParam = cashMoney.ToString(Nfi);
-            var Command = 53;
-            var Data = (new object[] { (int)paymentMode1, cashMoneyParam, (int)paymentMode2 }).StringJoin("\t");
-            return new CalculateTotalResponse(SendMessage(Command, Data));
-        }
-
         /// <summary>
         /// All void of a fiscal receipt. <br/>
         /// <bold>Note:The receipt will be closed as a non fiscal receipt. The slip number (unique number of the fiscal receipt) will not be increased.</bold>
@@ -288,26 +307,27 @@ namespace BDO_DatecsDP25
             var Data = string.Empty;
             return new VoidOpenFiscalReceiptResponse(SendMessage(Command, Data));
         }
-
-
-        public AddTextToFiscalReceiptResponse AddTextToFiscalReceipt(string text)
-        {
-            var Command = 54;
-            var Data = text + "\t";
-            return new AddTextToFiscalReceiptResponse(SendMessage(Command, Data));
-        }
-
         /// <summary>
-        ///  Closes open fiscal receipt.
+        /// Sets date and time in ECR.
         /// </summary>
-        /// <returns>CloseFiscalReceiptResponse</returns>
-        public CloseFiscalReceiptResponse CloseFiscalReceipt()
+        /// <param name="dateTime">DateTime to set.</param>
+        /// <returns>EmptyFiscalResponse</returns>
+        public EmptyFiscalResponse SetDateTime(DateTime dateTime)
         {
-            var Command = 56;
-            var Data = string.Empty;
-            return new CloseFiscalReceiptResponse(SendMessage(Command, Data));
+            var Command = 61;
+            var Data = dateTime.ToString("dd-MM-yy HH:mm:ss") + "\t";
+            return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-
+        /// <summary>
+        /// Reads current date and time from ECR.
+        /// </summary>
+        /// <returns>ReadDateTimeResponse</returns>
+        public ReadDateTimeResponse ReadDateTime()
+        {
+            var Command = 62;
+            var Data = string.Empty;
+            return new ReadDateTimeResponse(SendMessage(Command, Data));
+        }
         /// <summary>
         /// Get the information on the last fiscal entry.
         /// </summary>
@@ -319,7 +339,17 @@ namespace BDO_DatecsDP25
             var Data = ((int)type) + "\t";
             return new GetLastFiscalEntryInfoResponse(SendMessage(Command, Data));
         }
-
+        /// <summary>
+        /// Prints X or Z Report and returns some stats.
+        /// </summary>
+        /// <param name="type">ReportType</param>
+        /// <returns>PrintReportResponse</returns>
+        public PrintReportResponse PrintReport(Commands.ReportType type)
+        {
+            var Command = 69;
+            var Data = (type) + "\t";
+            return new PrintReportResponse(SendMessage(Command, Data));
+        }
         /// <summary>
         /// Cash in and Cash out operations
         /// </summary>
@@ -332,9 +362,6 @@ namespace BDO_DatecsDP25
             var Data = (new object[] { (int)operationType, amount }).StringJoin("\t");
             return new CashInCashOutResponse(SendMessage(Command, Data));
         }
-        #endregion
-
-        #region other
         /// <summary>
         /// Reads the status of the device.
         /// </summary>
@@ -345,41 +372,16 @@ namespace BDO_DatecsDP25
             var Data = string.Empty;
             return new ReadStatusResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
-        /// Feeds blank paper.
+        /// Gets the status of current or last receipt 
         /// </summary>
-        /// <param name="lines">Line Count 1 to 99; default =  1;</param>
-        /// <returns>EmptyFiscalResponse</returns>
-        public EmptyFiscalResponse FeedPaper(int lines = 1)
+        /// <returns>GetStatusOfCurrentReceiptResponse</returns>
+        public GetStatusOfCurrentReceiptResponse GetStatusOfCurrentReceipt()
         {
-            var Command = 44;
-            var Data = lines + "\t";
-            return new EmptyFiscalResponse(SendMessage(Command, Data));
+            var Command = 76;
+            var Data = string.Empty;
+            return new GetStatusOfCurrentReceiptResponse(SendMessage(Command, Data));
         }
-
-
-        /// <summary>
-        /// Prints buffer
-        /// </summary>
-        /// <returns>EmptyFiscalResponse</returns>
-        public EmptyFiscalResponse PrintBuffer()
-        {
-            return FeedPaper(0);
-        }
-
-        /// <summary>
-        /// Reads an error code  explanation from ECR.
-        /// </summary>
-        /// <param name="errorCode">Code of the error</param>
-        /// <returns>ReadErrorResponse</returns>
-        public ReadErrorResponse ReadError(string errorCode)
-        {
-            var Command = 100;
-            var Data = errorCode + "\t";
-            return new ReadErrorResponse(SendMessage(Command, Data));
-        }
-
         /// <summary>
         /// ECR beeps with given interval and frequency.
         /// </summary>
@@ -392,19 +394,17 @@ namespace BDO_DatecsDP25
             var Data = (new object[] { frequency, interval }).StringJoin("\t");
             return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
-        /// Prints X or Z Report and returns some stats.
+        /// Reads an error code  explanation from ECR.
         /// </summary>
-        /// <param name="type">ReportType</param>
-        /// <returns>PrintReportResponse</returns>
-        public PrintReportResponse PrintReport(Commands.ReportType type)
+        /// <param name="errorCode">Code of the error</param>
+        /// <returns>ReadErrorResponse</returns>
+        public ReadErrorResponse ReadError(string errorCode)
         {
-            var Command = 69;
-            var Data = (type) + "\t";
-            return new PrintReportResponse(SendMessage(Command, Data));
+            var Command = 100;
+            var Data = errorCode + "\t";
+            return new ReadErrorResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// 105 (69h) - Operators report
         /// </summary>
@@ -418,7 +418,6 @@ namespace BDO_DatecsDP25
             var Data = (new object[] { firstOper, lastOper, clear }).StringJoin("\t");
             return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-
         /// <summary>
         /// Opens the cash drawer if such is connected.
         /// </summary>
@@ -430,41 +429,6 @@ namespace BDO_DatecsDP25
             var Data = impulseLength + "\t";
             return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-    
-        /// <summary>
-        /// Sets date and time in ECR.
-        /// </summary>
-        /// <param name="dateTime">DateTime to set.</param>
-        /// <returns>EmptyFiscalResponse</returns>
-        public EmptyFiscalResponse SetDateTime(DateTime dateTime)
-        {
-            var Command = 61;
-            var Data = dateTime.ToString("dd-MM-yy HH:mm:ss") + "\t";
-            return new EmptyFiscalResponse(SendMessage(Command, Data));
-        }
-
-        /// <summary>
-        /// Reads current date and time from ECR.
-        /// </summary>
-        /// <returns>ReadDateTimeResponse</returns>
-        public ReadDateTimeResponse ReadDateTime()
-        {
-            var Command = 62;
-            var Data = string.Empty;
-            return new ReadDateTimeResponse(SendMessage(Command, Data));
-        }
-
-        /// <summary>
-        /// Gets the status of current or last receipt 
-        /// </summary>
-        /// <returns>GetStatusOfCurrentReceiptResponse</returns>
-        public GetStatusOfCurrentReceiptResponse GetStatusOfCurrentReceipt()
-        {
-            var Command = 76;
-            var Data = string.Empty;
-            return new GetStatusOfCurrentReceiptResponse(SendMessage(Command, Data));
-        }
-
         /// <summary>
         /// Defines items in ECR
         /// </summary>
@@ -483,7 +447,30 @@ namespace BDO_DatecsDP25
             var Data = (new object[] { "P", plu, (int)taxGr, dep, group, (int)priceType, price, "", quantity, "", "", "", "", name }).StringJoin("\t");
             return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
-
+        /// <summary>
+        /// 127 (7Fh) - Stamp operations
+        /// </summary>
+        /// <param name="type"> '0' - Print stamp;'1' - Rename loaded stamp with command 203. Default: '0'</param>
+        /// <param name="name"> Name of stamp as filename in format 8.3;. Default: ""</param>
+        /// <returns>ErrorCode - Indicates an error code. If command passed, ErrorCode is 0</returns>
+        public PrintStampResponse PrintStamp(Commands.CommandType type, string name)
+        {
+            var Command = 127;
+            var Data = (new object[] { (int)type, name }).StringJoin("\t");
+            return new PrintStampResponse(SendMessage(Command, Data));
+        }
+        /// <summary>
+        /// 203 (CAh) - Stamp image loading
+        /// </summary>
+        /// <param name="Parameter">  type of operation: START - Praparation for data loading; Answer(1); STOP - End of data; Answer(2); YmFzZTY0ZGF0YQ== - base64 coded data of the grahpic logo; Answer(2) </param>
+        /// <returns> Answer(1): ErrorCode - Indicates an error code. If command passed, ErrorCode is 0</returns>
+        /// <returns> Answer(2): ErrorCode - Indicates an error code. If command passed, ErrorCode is 0; Chechsum - Sum of decoded base64 data;</returns>
+        public LoadStampImageResponse LoadStampImage(String Parameter)
+        {
+            var Command = 203;
+            var Data = Parameter + "\t";
+            return new LoadStampImageResponse(SendMessage(Command, Data));
+        }
         /// <summary>
         /// Programming. #255
         /// </summary>
@@ -497,34 +484,7 @@ namespace BDO_DatecsDP25
             var Data = (new object[] { name, index, value }).StringJoin("\t");
             return new ProgrammingResponse(SendMessage(Command, Data));
         }
-
-        /// <summary>
-        /// 127 (7Fh) - Stamp operations
-        /// </summary>
-        /// <param name="type"> '0' - Print stamp;'1' - Rename loaded stamp with command 203. Default: '0'</param>
-        /// <param name="name"> Name of stamp as filename in format 8.3;. Default: ""</param>
-        /// <returns>ErrorCode - Indicates an error code. If command passed, ErrorCode is 0</returns>
-        public PrintStampResponse PrintStamp(Commands.CommandType type, string name)
-        {
-            var Command = 127;
-            var Data = (new object[] { (int)type, name }).StringJoin("\t");
-            return new PrintStampResponse(SendMessage(Command, Data));
-        }
-
-        /// <summary>
-        /// 203 (CAh) - Stamp image loading
-        /// </summary>
-        /// <param name="Parameter">  type of operation: START - Praparation for data loading; Answer(1); STOP - End of data; Answer(2); YmFzZTY0ZGF0YQ== - base64 coded data of the grahpic logo; Answer(2) </param>
-        /// <returns> Answer(1): ErrorCode - Indicates an error code. If command passed, ErrorCode is 0</returns>
-        /// <returns> Answer(2): ErrorCode - Indicates an error code. If command passed, ErrorCode is 0; Chechsum - Sum of decoded base64 data;</returns>
-        public LoadStampImageResponse LoadStampImage(String Parameter)
-        {
-            var Command = 203;
-            var Data = Parameter + "\t";
-            return new LoadStampImageResponse(SendMessage(Command, Data));
-        }
-
         #endregion
     }
 
-    }
+}
