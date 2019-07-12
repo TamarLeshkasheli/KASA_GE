@@ -1,6 +1,7 @@
 ﻿using BDO_DatecsDP25.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,15 @@ namespace BDO_DatecsDP25
             this.data = data;
             this.status = status;
         }
+        public static FP700Result Empty = new FP700Result(0, 0, new byte[] { }, new byte[] { });
     }
 
-    public class FP700Printer : IDisposable
+    public interface IFP700Printer : IDisposable
+    {
+        FP700Result Exec(int cmd, string data);
+    }
+
+    public class FP700Printer : IFP700Printer
     {
         private const int Nak = 0x15;
         private const int Syn = 0x16;
@@ -71,8 +78,8 @@ namespace BDO_DatecsDP25
         {
             serialPort = new SerialPort(portName, 115200, Parity.None, 8, StopBits.One)
             {
-                ReadTimeout = 500,
-                WriteTimeout = 500
+                ReadTimeout = 1500,
+                WriteTimeout = 1500
             };
             serialPort.Open();
             lastResult = UnWrapMessage(ReTry(3, () => Send(WrapCommand(32, 74, string.Empty))));
@@ -81,7 +88,7 @@ namespace BDO_DatecsDP25
 
         public FP700Result Exec(int cmd, string data)
         {
-            var seq = lastResult.seq == 0xFE ? 33 : lastResult.seq + 1;
+            var seq = lastResult.seq == 0xFE ? 32 : lastResult.seq + 1;
             lastResult = UnWrapMessage(ReTry(3, () => Send(WrapCommand((byte)seq, cmd, data))));
             return lastResult;
         }
@@ -110,6 +117,7 @@ namespace BDO_DatecsDP25
 
         private static byte[] WrapCommand(byte seq, int cmd, string data)
         {
+            //Debug.WriteLine($">{(int)seq} {cmd} {data}");
             var body = Quarterize(data.Length + 10 + 0x20)
                 .Concat(new[] { seq })
                 .Concat(Quarterize(cmd))
@@ -134,10 +142,11 @@ namespace BDO_DatecsDP25
                 message.Slice(1, -5).Sum(b => b) == UnQuarterize(message.Slice(-5, -1))
             )) throw new ArgumentException("message");
             var seq = message[5];
-            var cmd = message.Slice(6, 10);
+            var cmd = UnQuarterize(message.Slice(6, 10));
             var data = message.Slice(10, -15);
             var status = message.Slice(-14, -6);
-            return new FP700Result(seq, UnQuarterize(cmd), data, status);
+            //Debug.WriteLine($"<{(int)seq} {cmd} {Encoding.GetEncoding(1251).GetString(data)}");
+            return new FP700Result(seq, cmd, data, status);
         }
 
         private static byte[] Quarterize(int value)
