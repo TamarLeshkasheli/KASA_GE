@@ -58,8 +58,8 @@ namespace TestApp
         static void testDP25(Dp25 p)
         {
             p.OpenFiscalReceipt("5", "5");
-            p.RegisterSale("ყველი", 11.6m, 1, 1, BDO_DatecsDP25.Commands.TaxCode.A);
-            //p.RegisterSale("პური", 2m, 1, 1, BDO_DatecsDP25.Commands.TaxCode.A);
+            p.RegisterSale("ყველი", 11.6m, 1.21m, 1, BDO_DatecsDP25.Commands.TaxCode.A);
+            p.RegisterSale("პური", 0.98m, 3, 1, BDO_DatecsDP25.Commands.TaxCode.A);
             //p.RegisterSale("ხაჭაპური", 3m, 1, 1, BDO_DatecsDP25.Commands.TaxCode.A);
             //p.RegisterSale("წიწილა", 4m, 1, 1, BDO_DatecsDP25.Commands.TaxCode.A);
             //p.SubTotal();

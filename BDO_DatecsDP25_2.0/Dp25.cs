@@ -97,6 +97,12 @@ namespace BDO_DatecsDP25
         #endregion
 
         #region Commands
+        private static string FormatAmount(decimal a, int decimals)
+        {
+            var p = (int)Math.Pow(10, decimals);
+            return (int)a + "." + (int)(a * p - (int)a * p);
+        }
+
         /// <summary>
         /// Opens non fiscal text receipt.
         /// </summary>
@@ -201,7 +207,7 @@ namespace BDO_DatecsDP25
             TaxCode taxCode = Commands.TaxCode.A)
         {
             var Command = 49;
-            var Data = $"{pluName}\t{(int)taxCode}\t{price,0:0.00}\t{quantity}\t\t\t{departmentNumber}\t";
+            var Data = $"{pluName}\t{(int)taxCode}\t{FormatAmount(price, 2)}\t{FormatAmount(quantity, 3)}\t\t\t{departmentNumber}\t";
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
         /// <summary>
@@ -220,7 +226,7 @@ namespace BDO_DatecsDP25
               TaxCode taxCode = Commands.TaxCode.A)
         {
             var Command = 49;
-            var Data = $"{pluName}\t{(int)taxCode}\t{price,0:0.00}\t{quantity}\t{(int)discountType}\t{discountValue,0:0.00}\t{departmentNumber}\t";
+            var Data = $"{pluName}\t{(int)taxCode}\t{FormatAmount(price, 2)}\t{FormatAmount(quantity, 3)}\t{(int)discountType}\t{FormatAmount(discountValue, 2)}\t{departmentNumber}\t";
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
         public SubTotalResponse SubTotal()
@@ -249,7 +255,7 @@ namespace BDO_DatecsDP25
 		public CalculateTotalResponse Total(Commands.PaymentMode paymentMode1, decimal cashMoney, PaymentMode paymentMode2)
         {
             var Command = 53;
-            var Data = $"{(int)paymentMode1}\t{cashMoney,0:0.00}\t";
+            var Data = $"{(int)paymentMode1}\t{FormatAmount(cashMoney, 2)}\t";
             return new CalculateTotalResponse(SendMessage(Command, Data));
         }
         public AddTextToFiscalReceiptResponse AddTextToFiscalReceipt(string text)
@@ -281,7 +287,7 @@ namespace BDO_DatecsDP25
             Commands.DiscountType discountType, decimal discountValue)
         {
             var Command = 58;
-            var Data = (new object[] { pluCode, quantity, price, (int)discountType, discountValue }).StringJoin("\t");
+            var Data = (new object[] { pluCode, FormatAmount(quantity, 3), FormatAmount(price, 2), (int)discountType, FormatAmount(discountValue, 2) }).StringJoin("\t");
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
         /// <summary>
@@ -293,7 +299,7 @@ namespace BDO_DatecsDP25
         public RegisterSaleResponse RegisterProgrammedItemSale(int pluCode, decimal quantity)
         {
             var Command = 58;
-            var Data = (new object[] { pluCode, quantity, string.Empty, string.Empty, string.Empty }).StringJoin("\t");
+            var Data = (new object[] { pluCode, FormatAmount(quantity, 3), string.Empty, string.Empty, string.Empty }).StringJoin("\t");
             return new RegisterSaleResponse(SendMessage(Command, Data));
         }
         /// <summary>
@@ -359,7 +365,7 @@ namespace BDO_DatecsDP25
         public CashInCashOutResponse CashInCashOutOperation(Commands.Cash operationType, decimal amount)
         {
             var Command = 70;
-            var Data = (new object[] { (int)operationType, amount }).StringJoin("\t");
+            var Data = (new object[] { (int)operationType, FormatAmount(amount, 2) }).StringJoin("\t");
             return new CashInCashOutResponse(SendMessage(Command, Data));
         }
         /// <summary>
@@ -444,7 +450,7 @@ namespace BDO_DatecsDP25
         public EmptyFiscalResponse ProgramItem(string name, int plu, Commands.TaxGr taxGr, int dep, int group, decimal price, decimal quantity = 9999, Commands.PriceType priceType = Commands.PriceType.FixedPrice)
         {
             var Command = 107;
-            var Data = (new object[] { "P", plu, (int)taxGr, dep, group, (int)priceType, price, "", quantity, "", "", "", "", name }).StringJoin("\t");
+            var Data = (new object[] { "P", plu, (int)taxGr, dep, group, (int)priceType, FormatAmount(price, 2), "", FormatAmount(quantity, 3), "", "", "", "", name }).StringJoin("\t");
             return new EmptyFiscalResponse(SendMessage(Command, Data));
         }
         /// <summary>
