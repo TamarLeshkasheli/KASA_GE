@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace BDO_DatecsDP25
@@ -46,7 +46,7 @@ namespace BDO_DatecsDP25
 
         static int Encode(byte[] buffer, byte seq, int cmd, params string[] list)
         {
-            var paramsStr = (list.Length == 0) ? string.Empty : ToASCIIString(string.Join("\t", list)) + '\t';
+            var paramsStr = (list.Length == 0) ? string.Empty : string.Join("\t", list.Select(ToASCIIString).ToArray()) + '\t';
             var chrArray = paramsStr.ToCharArray();
             var pos = 0;
             buffer[pos++] = 0x01;

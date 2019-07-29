@@ -1,0 +1,1873 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>FP700 Georgia</title>
+</head>
+<body>
+    <div class="textblock">
+        <hr />
+        <hr />
+        <h2>How to read command explanations </h2>
+        <h2></h2>
+        <p><b>This</b> <b>is</b> <b>example</b> <b>command</b> <b>syntax:</b> </p><div class="fragment">
+            <div class="line">{Parameter1}&lt;SEP&gt;{Parameter2}&lt;SEP&gt;{Parameter3}&lt;SEP&gt;&lt;DateTime&gt;&lt;SEP&gt;</div>
+        </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>&lt;SEP&gt; - This tag must be inserted after each parameter to separate different parameters. It's value is '[]' (tab). It is the same for all commands;</dd></dl>
+        <p>Mandatory parameters:</p><ul>
+            <li><b>Parameter1</b> - This parameter is mandatory, it must be filled;</li>
+            <li>
+                <b>Parameter3</b> - This parameter is mandatory, it must be filled;<ul>
+                    <li>
+                        <b>A</b> - Possible value of Parameter3; <br />
+                        <em>Answer(1)</em> - if Parameter3 has value 'A' see Answer(1);
+                    </li>
+                    <li>
+                        <b>B</b> - Possible value of Parameter3; <br />
+                        <em>Answer(2)</em> - if Parameter3 has value 'B' see Answer(2);
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <b>DateTime</b> - Date and time format: DD-MM-YY hh:mm:ss<ul>
+                    <li><b>DD</b> - Day</li>
+                    <li><b>MM</b> - Month</li>
+                    <li><b>YY</b> - Year</li>
+                    <li><b>hh</b> - Hours</li>
+                    <li><b>mm</b> - Minutes</li>
+                    <li><b>ss</b> - Seconds</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li>
+                <b>Parameter2</b> - This parameter is optional, it can be left blank, but separator must exist. Default: X; <dl class="section note"><dt>Note</dt><dd>If left blank, the parameter will be used with the value after "Default:" - in this case 'X'. In some cases, a blank parameter may change the meaning of the command, which will be explained for each command;</dd></dl>
+            </li>
+        </ul>
+        <p>
+            <em>Answer(X)</em> - This is the default answer of the command. <br />
+            Under each command there will be a list with possible answers.
+        </p>
+        <p>
+            Answer when command fail to execute is the same for all commands, so it will not be explained after each command. <br />
+            <b>Answer</b> <b>when</b> <b>command</b> <b>fail</b> <b>to</b> <b>execute:</b>
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code;</li>
+        </ul>
+        <h2>--------------------------------------------------------------------------— </h2>
+        <hr />
+        <h2>Command: 33 (21h) </h2>
+        <p>Clears the external display. </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 35 (23h) </h2>
+        <p>Displaying text on second line of the external display. </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Text}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Text</b> - Text to be sent directly to the external display ( up to 20 symbols );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 38 (26h) </h2>
+        <p>Open a non-fiscal text receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 39 (27h) </h2>
+        <p>Close a non-fiscal text receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 42 (2Ah) </h2>
+        <p>Printing of free text in a non-fiscal text receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Text}&lt;SEP&gt;Bold&lt;SEP&gt;Italic&lt;SEP&gt;DoubleH&lt;SEP&gt;Underline&lt;SEP&gt;alignment&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>Text</b> - text of 0...XX symbols;<ul>
+                    <li>for FP-700, XX is 48 or 36;</li>
+                    <li>for FMP-350, XX is 48 or 42;</li>
+                    <li>for FMP-60, XX is 42;</li>
+                </ul>
+            </li>
+            <li><b>Bold</b> - flag 0 or 1, 1 = print bold text; empty field = normal text;</li>
+            <li><b>Italic</b> - flag 0 or 1, 1 = print italic text; empty field = normal text;</li>
+            <li><b>DoubleH</b> - flag 0 or 1, 1 = print double height text; empty field = normal text;</li>
+            <li><b>Underline</b> - flag 0 or 1, 1 = print underlined text; empty field = normal text;</li>
+            <li><b>alignment</b> - 0, 1 or 2. 0=left alignment, 1=center, 2=right; empty field = left alignment;</li>
+        </ul>
+        <p>
+            <br />
+            {ErrorCode}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;
+        </p><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 44 (2Ch) </h2>
+        <p>Paper feed </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Lines}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li><b>Lines</b> - Number of lines to feed ( 0...99 ). Default: 1;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 45 (2Dh) </h2>
+        <p>Check for mode "Connection with PC" </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 46 (2Eh) </h2>
+        <p>Paper cutting </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p>
+            <br />
+            <b>Answer:</b>
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 47 (2Fh) </h2>
+        <p>Displaying text on upper line of the external display. </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Text}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Text</b> - Text to be sent directly to the external display ( up to 20 symbols );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 48 (30h) </h2>
+        <p>Open a fiscal receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{OpCode}&lt;SEP&gt;{OpPwd}&lt;SEP&gt;{TillNmb}&lt;SEP&gt;{ReceiptType}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>OpCode</b> - Operator number ( 1...30 );</li>
+            <li><b>OpPwd</b> - Operator password ( Ascii string of digits, length 1...8 );</li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li><b>TillNmb</b> - Number of point of sale (1...99999). Default: Logical number of the FP in the workplace;</li>
+            <li>
+                <b>ReceiptType</b> - Type of the receipt. Default: 0;<ul>
+                    <li><b>'0'</b> - Open a sales receipt;</li>
+                    <li><b>'1'</b> - Open a return receipt;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 );</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 49 (31h) </h2>
+        <p>Registration of sale </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{PluName}&lt;SEP&gt;{TaxCode}&lt;SEP&gt;{Price}&lt;SEP&gt;{Quantity}&lt;SEP&gt;{DiscountType}&lt;SEP&gt;{DiscountValue}&lt;SEP&gt;{Department}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters: {PluName}, {TaxCode}, {Price}, {Department}</p><ul>
+            <li><b>PluName</b> - Product name ( up to 72 symbols );</li>
+            <li>
+                <b>TaxCode</b> - Tax code (one digit 1...3);<ul>
+                    <li><b>'1'</b> - VAT group A;</li>
+                    <li><b>'2'</b> - VAT group B;</li>
+                    <li><b>'3'</b> - VAT group C;</li>
+                </ul>
+            </li>
+            <li><b>Price</b> - Product price ( 0.01...9999999.99 ). With sign '-' at void operations;</li>
+            <li><b>Department</b> - Department number (1..16);</li>
+        </ul>
+        <p>Optional parameters: {Quantity}, {DiscountType}, {DiscountValue}</p><ul>
+            <li><b>Quantity</b> - Quantity of the product ( 0.001...99999.999 ). Default: 1.000;</li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>Max value of {Quantity} * {Price} is limited by a parameter (Default: 9999999.99);</dd></dl>
+        <ul>
+            <li>
+                <b>DiscountType</b> - Type. Default: 0;<ul>
+                    <li><b>'0'</b> - no discount;</li>
+                    <li><b>'1'</b> - surcharge by percentage;</li>
+                    <li><b>'2'</b> - discount by percentage;</li>
+                    <li><b>'3'</b> - surcharge by sum;</li>
+                    <li><b>'4'</b> - discount by sum;</li>
+                </ul>
+            </li>
+            <li>
+                <b>DiscountValue</b> - Value;<ul>
+                    <li><b>Percentage</b> ( 0.00...100.00 ) - for percentage operations;</li>
+                    <li><b>Amount</b> ( 0.00...9999999.99 ) - for value operations;</li>
+                </ul>
+            </li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>If {DiscountType} is non zero, {DiscountValue} must contain value. If {DiscountType} is zero or empty, {DiscountValue} must be empty;</dd></dl>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 );</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 50 (32h) </h2>
+        <p>Return the active VAT rates </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{nZreport}&lt;SEP&gt;{TaxA}&lt;SEP&gt;{TaxB}&lt;SEP&gt;{TaxC}&lt;SEP&gt;{EntDate}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>nZreport</b> - Number of first Z-report ( 1...3800 );</li>
+            <li>
+                <b>TaxX</b> - Value of VAT rate <b>X</b>;<ul>
+                    <li><b>0.00</b>...99.99 - enabled;</li>
+                    <li><b>100.01</b> - disabled;</li>
+                </ul>
+            </li>
+            <li><b>EntryDate</b> - Date of entry ( format "DD-MM-YY" );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 51 (33h) </h2>
+        <p>Subtotal and surcharge or discount over subtotal </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Print}&lt;SEP&gt;{Display}&lt;SEP&gt;{DiscountType}&lt;SEP&gt;{DiscountValue}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>Print</b> - Print out the subtotal. Default: 0;<ul>
+                    <li><b>'0'</b> - No print out;</li>
+                    <li><b>'1'</b> - The sum of the subtotal will be printed out;</li>
+                </ul>
+            </li>
+            <li>
+                <b>Display</b> - Show the subtotal on the client display. Default: 0;<ul>
+                    <li><b>'0'</b> - No display;</li>
+                    <li><b>'1'</b> - The sum of the subtotal will appear on the display;</li>
+                </ul>
+            </li>
+            <li>
+                <b>DiscountType</b> - Type. Default: 0;<ul>
+                    <li><b>'0'</b> - no discount;</li>
+                    <li><b>'1'</b> - surcharge by percentage;</li>
+                    <li><b>'2'</b> - discount by percentage;</li>
+                    <li><b>'3'</b> - surcharge by sum;</li>
+                    <li><b>'4'</b> - discount by sum;</li>
+                </ul>
+            </li>
+            <li>
+                <b>DiscountValue</b> - Value;<ul>
+                    <li><b>Percentage</b> ( 0.00...100.00 ) - for percentage operations;</li>
+                    <li><b>Amount</b> ( 0.00...9999999.99 ) - for value operations;</li>
+                </ul>
+            </li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>If {DiscountType} is non zero, {DiscountValue} must contain value. If {DiscountType} is zero or empty, {DiscountValue} must be empty;</dd></dl>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Subtotal}&lt;SEP&gt;{TaxA}&lt;SEP&gt;{TaxB}&lt;SEP&gt;{TaxC}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Subtotal</b> - Subtotal of the receipt ( 0.00...9999999.99 );</li>
+            <li><b>TaxX</b> - Receipt turnover of VAT group <b>X</b> ( 0.00...9999999.99 );</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 );</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 53 (35h) </h2>
+        <p>Payments and calculation of the total sum (TOTAL) </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{PaidMode}&lt;SEP&gt;{Amount}&lt;SEP&gt;{PaidMode2}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>PaidMode</b> - Type of payment. Default: 0;<ul>
+                    <li><b>'0'</b> - cash;</li>
+                    <li><b>'1'</b> - card;</li>
+                    <li><b>'2'</b> - credit;</li>
+                    <li>
+                        <b>'3'</b> - tare; <dl class="section note"><dt>Note</dt><dd>If a payment name is blank or equal to " ", using of this payment is impossible. Default payment names are: "CASH", "CARD", " ", " ".</dd></dl>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <b>PaidMode2</b> - Secondary payment type ( when mixed payment is necessary );<ul>
+                    <li><b>'0'</b> - cash;</li>
+                    <li><b>'1'</b> - card;</li>
+                    <li><b>'2'</b> - credit;</li>
+                    <li>
+                        <b>'3'</b> - tare; <dl class="section note"><dt>Note</dt><dd>The parameter {PaidMode2} is mandatory if {Amount} is less than bill total</dd></dl>
+                    </li>
+                </ul>
+            </li>
+            <li><b>Amount</b> - Amount to pay ( 0.00...9999999.99 ). Default: the residual sum of the receipt;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Status}&lt;SEP&gt;{Amount}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code;</li>
+            <li>
+                <b>Status:</b> <ul>
+                    <li><b>'D'</b> - Returned when the paid sum is equal to the sum of the receipt. The residual sum due for payment (equal to 0) is returned to Amount;</li>
+                    <li><b>'R'</b> - Returned when the paid sum is greater than the sum of the receipt. The change is returned to Amount;</li>
+                </ul>
+            </li>
+            <li><b>Amount</b> - The residual sum due for payment (equal to 0) or the change;</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 );</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>If the amount of sales or returns in the receipt before the payment is equal to 0.00, the command will not be excuted. The command 'All void of a fiscal receipt' (command 60) followed by a command for closing the receipt (commands 39 or 56) should be used. After the closing of the receipt as a non fiscal, the slip number (unique number of the fiscal receipt) will not be increased;</dd></dl>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 54 (36h) </h2>
+        <p>Printing of a free fiscal text </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Text}&lt;SEP&gt;Bold&lt;SEP&gt;Italic&lt;SEP&gt;DoubleH&lt;SEP&gt;Underline&lt;SEP&gt;alignment&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>Text</b> - text of 0...XX symbols;<ul>
+                    <li>for FP-700, XX is 48 or 36;</li>
+                    <li>for FMP-350, XX is 48 or 42;</li>
+                    <li>for FP-60, XX is 42;</li>
+                </ul>
+            </li>
+            <li><b>Bold</b> - flag 0 or 1, 1 = print bold text; empty field = normal text;</li>
+            <li><b>Italic</b> - flag 0 or 1, 1 = print italic text; empty field = normal text;</li>
+            <li><b>DoubleH</b> - flag 0 or 1, 1 = print double height text; empty field = normal text;</li>
+            <li><b>Underline</b> - flag 0 or 1, 1 = print underlined text; empty field = normal text;</li>
+            <li><b>alignment</b> - 0, 1 or 2. 0=left alignment, 1=center, 2=right; empty field = left alignment;</li>
+        </ul>
+        <p>
+            <br />
+            <b>Answer:</b>
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 56 (38h) </h2>
+        <p>Close a fiscal receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SlipNumberOfThisType}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>SlipNumberOfThisType</b> - Current slip number of this type: cash debit receipt or cash credit receipt or cashfree debit receipt or cashfree credit rceipt ( 1...99999999 ). Returned only if the receipt is fiscal;</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 ). Returned only if the receipt is fiscal;</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>If no payment command is executed or if the amount of sales or returns in the receipt is equal to 0.00, the command will not be excuted. The command 'All void of a fiscal receipt' (command 60) followed by a command for closing the receipt (commands 39 or 56) should be used. After the closing of the receipt as a non fiscal, the slip number (unique number of the fiscal receipt) will not be increased;</dd></dl>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 58 (3Ah) </h2>
+        <p>Registration of sale of a programmed item </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{PluCode}&lt;SEP&gt;{Quantity}&lt;SEP&gt;{Price}&lt;SEP&gt;{DiscountType}&lt;SEP&gt;{DiscountValue}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters: {PluCode}</p><ul>
+            <li><b>PluCode</b> - The code of the item (1...3000). With sign '-' at void operations;</li>
+        </ul>
+        <p>Optional parameters: {Quantity}, {Price}, {DiscountType}, {DiscountValue}</p><ul>
+            <li><b>Quantity</b> - Quantity of the item ( 0.001...99999.999 ). Default: 1.000;</li>
+            <li><b>Price</b> - Price of the item ( 0.01...9999999.99 ). Default: programmed price of the item;</li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>Max value of {Quantity} * {Price} is limited by a parameter (Default: 9999999.99);</dd></dl>
+        <ul>
+            <li>
+                <b>DiscountType</b> - Type. Default: 0;<ul>
+                    <li><b>'0'</b> - no discount;</li>
+                    <li><b>'1'</b> - surcharge by percentage;</li>
+                    <li><b>'2'</b> - discount by percentage;</li>
+                    <li><b>'3'</b> - surcharge by sum;</li>
+                    <li><b>'4'</b> - discount by sum;</li>
+                </ul>
+            </li>
+            <li>
+                <b>DiscountValue</b> - Value;<ul>
+                    <li><b>Percentage</b> ( 0.00...100.00 ) - for percentage operations;</li>
+                    <li><b>Amount</b> ( 0.00...9999999.99 ) - for value operations;</li>
+                </ul>
+            </li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>If {DiscountType} is non zero, {DiscountValue} must contain value. If {DiscountType} is zero or empty, {DiscountValue} must be empty;</dd></dl>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 );</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 60 (3Ch) </h2>
+        <p>All void of a fiscal receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SlipNumber}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt, which will be turned to a non fiscal ( 1...99999999 ). The slip number will not be increased;</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>After using of this command, the receipt will be turned to a non fiscal receipt. No further commands except commands for closing the receipt (commands 39 or 56) will be executed. After the closing of the receipt as a non fiscal, the slip number (unique number of the fiscal receipt) will not be increased;</dd></dl>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 61 (3Dh) </h2>
+        <p>Set date and time </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{DateTime}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>DateTime</b> - Date and time ( format "DD-MM-YY hh:mm:ss" );<ul>
+                    <li><b>DD</b> - Day;</li>
+                    <li><b>MM</b> - Month;</li>
+                    <li><b>YY</b> - Year;</li>
+                    <li><b>hh</b> - Hour;</li>
+                    <li><b>mm</b> - Minute;</li>
+                    <li><b>ss</b> - Second;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 62 (3Eh) </h2>
+        <p>Read date and time </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DateTime}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li>
+                <b>DateTime</b> - Date and time ( format "DD-MM-YY hh:mm:ss" );<ul>
+                    <li><b>DD</b> - Day;</li>
+                    <li><b>MM</b> - Month;</li>
+                    <li><b>YY</b> - Year;</li>
+                    <li><b>hh</b> - Hour;</li>
+                    <li><b>mm</b> - Minute;</li>
+                    <li><b>ss</b> - Second;</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 64 (40h) </h2>
+        <p>Information about last Z-report in the fiscal memory </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of returned data. Default: 0;<ul>
+                    <li>'0' - Cash debit receipts turnover and VAT amount;</li>
+                    <li>'1' - Cash credit receipts turnover and VAT amount;</li>
+                    <li>'2' - Cashfree debit receipts turnover and VAT amount;</li>
+                    <li>'3' - Cashfree credit receipts turnover and VAT amount;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{nRep}&lt;SEP&gt;{Sum}&lt;SEP&gt;{Vat}&lt;SEP&gt;{Date}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>nRep</b> - Number of Z-report ( 1...3800 );</li>
+            <li><b>Sum</b> - Turnover in receipts of type defined by <b>Type</b> ( 0.00...9999999.99 );</li>
+            <li><b>Vat</b> - Vat amount in receipts of type defined by <b>Type</b> ( 0.00...9999999.99 );</li>
+            <li><b>Date</b> - Date of fiscal record ( format "DD-MM-YY" );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 65 (41h) </h2>
+        <p>Information about daily turnovers </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of returned data. Default: 0;<ul>
+                    <li>'0' - Debit (cash and cashfree) receipts turnovers by VAT groups;</li>
+                    <li>'1' - Credit (cash and cashfree) receipts turnovers by VAT groups;</li>
+                    <li>'2' - Debit (cash and cashfree) receipts VAT amounts by VAT groups;</li>
+                    <li>'3' - Credit (cash and cashfree) receipts VAT amounts by VAT groups;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{nRep}&lt;SEP&gt;{SumA}&lt;SEP&gt;{SumB}&lt;SEP&gt;{SumC}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>nRep</b> - Number of current Z-report ( 1...3800 );</li>
+            <li><b>SumX</b> - Turnovers or VAT amounts of VAT group <b>X</b> in receipts of type defined by <b>Type</b> ( 0.00...9999999.99 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 68 (44h) </h2>
+        <p>Number of remaining entries for Z-reports in FM </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{ReportsLeft}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>ReportsLeft</b> - The number of remaining entries for Z-reports in FM ( 0...3800 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 69 (45h) </h2>
+        <p>Reports </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{ReportType}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>ReportType</b> - Report type;<ul>
+                    <li><b>'X'</b> - X-report;</li>
+                    <li><b>'Z'</b> - Z-report;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{nRep}&lt;SEP&gt;{TotA}&lt;SEP&gt;{TotB}&lt;SEP&gt;{TotC}&lt;SEP&gt;{TotNegA}&lt;SEP&gt;{TotNegB}&lt;SEP&gt;{TotNegC}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>nRep</b> - Number of Z-report ( 1...3800 );</li>
+            <li><b>TotX</b> - Turnovers of VAT group <b>X</b> in debit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>TotNegX</b> - Turnovers of VAT group <b>X</b> in credit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 70 (46h) </h2>
+        <p>Cash in and Cash out operations </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{Amount}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of operation;<ul>
+                    <li><b>'0'</b> - Cash in;</li>
+                    <li><b>'1'</b> - Cash out;</li>
+                </ul>
+            </li>
+            <li><b>Amount</b> - The sum ( 0.00...9999999.99 );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{CashSum}&lt;SEP&gt;{CashIn}&lt;SEP&gt;{CashOut}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>CashSum</b> - Cash in safe sum ( 0.00...9999999.99 );</li>
+            <li><b>CashIn</b> - Total sum of cash in operations ( 0.00...9999999.99 );</li>
+            <li><b>CashOut</b> - Total sum of cash out operations ( 0.00...9999999.99 );</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 71 (47h) </h2>
+        <p>Print diagnostic information </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{InfoType}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>InfoType</b> - Type of the information printed. Default: 0;<ul>
+                    <li><b>'0'</b> - General diagnostic information about the device;</li>
+                    <li><b>'1'</b> - Test GPRS;</li>
+                    <li><b>'2'</b> - test of the WiFi module (FMP-350 only);</li>
+                    <li><b>'3'</b> - Show wireless access points of the WiFi module (FMP-350 only);</li>
+                    <li><b>'4'</b> - test of the LAN interface (FP-700 and FP-60 only);</li>
+                    <li><b>'5'</b> - Information about the fiscal module (SAM);</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 72 (48h) </h2>
+        <p>Fiscalization </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{SerialNumber}&lt;SEP&gt;{TAXnumber}&lt;SEP&gt;{InspPssword}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>SerialNumber</b> - Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+            <li><b>TAXnumber</b> - Taxpayer Number ( up to 12 symbols );</li>
+            <li><b>InspPssword</b> - New inspector password ( up to 8 digits );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 74 (4Ah) </h2>
+        <p>Reading the Status </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{StatusBytes}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>StatusBytes</b> - Status Bytes;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 76 (4Ch) </h2>
+        <p>Status of current or last receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Type}&lt;SEP&gt;{Items}&lt;SEP&gt;{Amount}&lt;SEP&gt;{Paid}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li>
+                <b>Type</b> - Status of current or last receipt;<ul>
+                    <li><b>'0'</b> - Receipt is closed;</li>
+                    <li><b>'1'</b> - Sales receipt is open;</li>
+                    <li><b>'2'</b> - Return receipt is open;</li>
+                    <li><b>'3'</b> - Sales receipt is open and payment is executed (already closed in SAM) - closing command (command 56) should be used;</li>
+                    <li><b>'4'</b> - Return receipt is open and payment is executed (already closed in SAM) - closing command (command 56) should be used;</li>
+                    <li><b>'5'</b> - Sales or return receipt was open, but all void is executed and receipt is turned to a non fiscal - closing command (commands 39 or 56) should be used;</li>
+                    <li><b>'6'</b> - Non fiscal receipt is open - closing command (command 39) should be used;</li>
+                </ul>
+            </li>
+            <li><b>Items</b> - Number of sales in current or last fiscal receipt;</li>
+            <li><b>Amount</b> - The sum of current or last receipt ( 0.00...9999999.99 );</li>
+            <li><b>Paid</b> - The sum paid in current or last receipt ( 0.00...9999999.99 );</li>
+            <li><b>SlipNumber</b> - Current slip number - unique number of the fiscal receipt ( 1...99999999 ). Returned only if the receipt is open and is fiscal (Type = 1..5);</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 80 (50h) </h2>
+        <p>Play sound </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Hz}&lt;SEP&gt;{mSec}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Hz</b> - Frequency ( 0...65535 );</li>
+            <li><b>mSec</b> - Time in milliseconds ( 0...65535 );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 83 (53h) </h2>
+        <p>Programming of VAT rates </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{TaxA}&lt;SEP&gt;{TaxB}&lt;SEP&gt;{TaxC}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>TaxX</b> - Value of VAT rate <b>X</b>;<ul>
+                    <li><b>0.00</b>...99.99 - enabled;</li>
+                    <li><b>100.01</b> - disabled;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{RemainingChanges}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>RemainingChanges</b> - Number of remaining changes of VAT rates ( 1...30 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 84 (54h) </h2>
+        <p>Printing of barcode </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{Data}&lt;SEP&gt;{QRcodeSize}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of barcode;<ul>
+                    <li><b>'1'</b> - EAN8 barcode. {Data} must contain only 8 digits;</li>
+                    <li><b>'2'</b> - EAN13 barcode. {Data} must contain only 13 digits;</li>
+                    <li><b>'3'</b> - Code128 barcode. {Data} must contain symbols with ASCII codes between 32 and 127. {Data} length is between 3 and 31 symbols;</li>
+                    <li><b>'4'</b> - QR code. {Data} must contain symbols with ASCII codes between 32 and 127. {Data} length is between 3 and 279 symbols;</li>
+                </ul>
+                <b>Data</b> - Data of the barcode;<ul>
+                    <li><b>Length</b> of {Data} depents on the type of the barcode. Optional parameters:</li>
+                </ul>
+            </li>
+            <li>
+                <b>QRcodeSize</b> - Dots multiplier ( 3...10 ) default=4; <dl class="section note"><dt>Note</dt><dd>Printing a barcode is permitted only in an opened fiscal or non-fiscal receipt.</dd></dl>
+                <b>Answer:</b> <div class="fragment">
+                    <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+                </div><!-- fragment -->
+            </li>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 86 (56h) </h2>
+        <p>Date of the last fiscal record </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p> <b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DateTime}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DateTime</b> - The date and the time of the last fiscal record in format: DD-MM-YYYY hh:mm:ss;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 87 (58h) </h2>
+        <p>Get item groups information </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{ItemGroup}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p>
+            <br />
+            Optional parameters:
+        </p><ul>
+            <li><b>ItemGroup</b> - Number of item group; If ItemGroup is empty - item group report;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{TotSales}&lt;SEP&gt;{TotSum}&lt;SEP&gt;{Name}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>TotSales</b> - Number of sales for this item group for day;</li>
+            <li><b>TotSum</b> - Accumulated sum for this item group for day;</li>
+            <li><b>Name</b> - Name of item group;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 88 (58h) </h2>
+        <p>Get department information for current receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Department}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Department</b> - Department number ( 1...16 );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{TaxGr}&lt;SEP&gt;{Price}&lt;SEP&gt;{RecSales}&lt;SEP&gt;{RecQuanSales}&lt;SEP&gt;{RecSumSales}&lt;SEP&gt;{RecReturns}&lt;SEP&gt;{RecQuanReturns}&lt;SEP&gt;{RecSumReturns}&lt;SEP&gt;{TotSales}&lt;SEP&gt;{TotQuanSales}&lt;SEP&gt;{TotSumSales}&lt;SEP&gt;{TotReturns}&lt;SEP&gt;{TotQuanReturns}&lt;SEP&gt;{TotSumReturns}&lt;SEP&gt;{Name}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>TaxGr</b> - VAT group ( letter 'A' or 'B' or 'C' );</li>
+            <li><b>Price</b> - Department price ( 0.00...9999999.99 );</li>
+            <li><b>RecSales</b> - Number of sales for this department in current fiscal receipt ( 1...99999999 );</li>
+            <li><b>RecQuanSales</b> - Quantity of sales for this department in current fiscal receipt ( 0.001...99999.999 );</li>
+            <li><b>RecSumSales</b> - Sum of sales for this department in current fiscal receipt ( 0.00...9999999.99 );</li>
+            <li><b>RecReturns</b> - Number of returns for this department in current fiscal receipt ( 1...99999999 );</li>
+            <li><b>RecQuanReturns</b> - Quantity of returns for this department in current fiscal receipt;</li>
+            <li><b>RecSumReturns</b> - Sum of returns for this department in current fiscal receipt ( 0.00...9999999.99 );</li>
+            <li><b>TotSales</b> - Number of sales for this department in current Z-report ( 1...99999999 );</li>
+            <li><b>TotQuanSales</b> - Quantity of sales for this department in current Z-report ( 0.001...99999.999 );</li>
+            <li><b>TotSumSales</b> - Sum of sales for this department in current Z-report ( 0.00...9999999.99 );</li>
+            <li><b>TotReturns</b> - Number of returns for this department in current Z-report ( 1...99999999 );</li>
+            <li><b>TotQuanReturns</b> - Quantity of returns for this department in current Z-report ( 0.001...99999.999 );</li>
+            <li><b>TotSumReturns</b> - Sum of returns for this department in current Z-report ( 0.00...9999999.99 );</li>
+            <li><b>Name</b> - Department name ( up to 32 symbols );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 90 (5Ah) </h2>
+        <p>Diagnostic information </p><h2></h2>
+        <p>
+            <b>This</b> <b>are</b> <b>possible</b> <b>command</b> <b>syntaxes:</b>  <br />
+            Syntax 1:
+        </p><div class="fragment">
+            <div class="line">{Param}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>none</b> - Diagnostic information without firmware checksum;<br />
+                <em>Answer(1)</em>
+            </li>
+            <li>
+                <b>'1'</b> - Diagnostic information with firmware checksum;<br />
+                <em>Answer(1)</em>
+            </li>
+            <li>
+                <b>'#'</b> - Device identification;<br />
+                <em>Answer(2)</em>
+            </li>
+        </ul>
+        <p>Syntax 2: </p><div class="fragment">
+            <div class="line">{Param}</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>none</b> - Diagnostic information without firmware checksum;<br />
+                <em>Answer(3)</em>
+            </li>
+            <li>
+                <b>'1'</b> - Diagnostic information with firmware checksum;<br />
+                <em>Answer(3)</em>
+            </li>
+            <li>
+                <b>'#'</b> - Device identification;<br />
+                <em>Answer(4)</em>
+            </li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Name}&lt;SEP&gt;{FwRev}&lt;SEP&gt;{FwDate}&lt;SEP&gt;{FwTime}&lt;SEP&gt;{Checksum}&lt;SEP&gt;{Sw}&lt;SEP&gt;{DevNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Name</b> - Device name ( up to 32 symbols );</li>
+            <li><b>FwRev</b> - Firmware version. 6 symbols;</li>
+            <li><b>FwDate</b> - Firmware date DDMMMYY. 7 symbols;</li>
+            <li><b>FwTime</b> - Firmware time hhmm. 4 symbols.</li>
+            <li><b>Checksum</b> - Firmware checksum. 4 symbols;</li>
+            <li><b>Sw</b> - Switch from Sw1 to Sw8. 8 symbols (not used at this device, always 00000000);</li>
+            <li><b>DevNumber</b> - Device Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DevType}&lt;SEP&gt;{Country}&lt;SEP&gt;{DevName}&lt;SEP&gt;{CountryCode}&lt;SEP&gt;{Major}&lt;SEP&gt;{Minor}&lt;SEP&gt;{Build}&lt;SEP&gt;{DevNumber}&lt;SEP&gt;{HardwareVer}&lt;SEP&gt;{BootloaderVer}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DevType</b> - Type of fiscal device = 2;</li>
+            <li><b>Country</b> - Country code = 16;</li>
+            <li><b>DevName</b> - Device name ( up to 32 symbols );</li>
+            <li><b>CountryCode</b> - Code of dealer = 1;</li>
+            <li><b>Major</b> - Official major version number = ХХ;</li>
+            <li><b>Minor</b> - Official build number = ХХ;</li>
+            <li><b>Build</b> - Internal build number = ХХ;</li>
+            <li><b>DevNumber</b> - Device Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+            <li><b>HardwareVer</b> - Hardware Version;</li>
+            <li><b>BootloaderVer</b> - Bootloader Version;</li>
+        </ul>
+        <p>
+            <b>Answer(3)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{Name},{FwRev}{Sp}{FwDate}{Sp}{FwTime},{Checksum},{Sw},{DevNumber}</div>
+        </div><!-- fragment --><ul>
+            <li><b>Name</b> - Device name ( up to 32 symbols );</li>
+            <li><b>FwRev</b> - Firmware version. 6 symbols;</li>
+            <li><b>Sp</b> - Space. 1 symbol;</li>
+            <li><b>FwDate</b> - Firmware date DDMMMYY. 7 symbols;</li>
+            <li><b>Sp</b> - Space. 1 symbol;</li>
+            <li><b>FwTime</b> - Firmware time hhmm. 4 symbols.</li>
+            <li><b>Checksum</b> - Firmware checksum. 4 symbols;</li>
+            <li><b>Sw</b> - Switch from Sw1 to Sw8. 8 symbols (not used at this device, always 00000000);</li>
+            <li><b>DevNumber</b> - Device Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+        </ul>
+        <p>
+            <b>Answer(4)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{DevType},{Country},{DevName},{CountryCode},{Major},{Minor},{Build},{DevNumber},{HardwareVer},{BootloaderVer}</div>
+        </div><!-- fragment --><ul>
+            <li><b>DevType</b> - Type of fiscal device = 2;</li>
+            <li><b>Country</b> - Country code = 16;</li>
+            <li><b>DevName</b> - Device name ( up to 32 symbols );</li>
+            <li><b>CountryCode</b> - Code of dealer = 1;</li>
+            <li><b>Major</b> - Official major version number = ХХ;</li>
+            <li><b>Minor</b> - Official build number = ХХ;</li>
+            <li><b>Build</b> - Internal build number = ХХ;</li>
+            <li><b>DevNumber</b> - Device Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+            <li><b>HardwareVer</b> - Hardware Version;</li>
+            <li><b>BootloaderVer</b> - Bootloader Version;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 91 (5Bh) </h2>
+        <p>Programming of Serial number </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{SerialNumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>SerialNumber</b> - Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Country}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Country</b> - Name of the country;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 92 (5Ch) </h2>
+        <p>Printing of separating line </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of the separating line.<ul>
+                    <li><b>'1'</b> - Separating line with the symbol '-';</li>
+                    <li><b>'2'</b> - Separating line with the symbols '-' and ' ';</li>
+                    <li><b>'3'</b> - Separating line with the symbol '=';</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <br />
+            {ErrorCode}&lt;SEP&gt;
+        </p><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 94 (5Еh) </h2>
+        <p>Fiscal memory report by dates </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{Start}&lt;SEP&gt;{End}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of report;<ul>
+                    <li><b>'0'</b> - Short;</li>
+                    <li><b>'1'</b> - Detailed;</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li><b>Start</b> - Start date ( format "DD-MM-YY" ). Default: Date of fiscalization;</li>
+            <li><b>End</b> - End date ( format "DD-MM-YY" ). Default: Current date;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 95 (5Fh) </h2>
+        <p>Fiscal memory report by Z-report numbers </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{First}&lt;SEP&gt;{Last}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of report;<ul>
+                    <li><b>'0'</b> - Short;</li>
+                    <li><b>'1'</b> - Detailed;</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li><b>First</b> - First Z-report in the period ( 1...3800 ). Default: 1;</li>
+            <li><b>Last</b> - Last Z-report in the period ( 1...3800 ). Default: Number of last Z-report;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 100 (64h) </h2>
+        <p>Reading an error </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Code}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Code</b> - Code of the error;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Code}&lt;SEP&gt;{ErrorMessage}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Code</b> - Code of the error, to be explained;</li>
+            <li><b>ErrorMessage</b> - Explanation of the error in <b>Code</b>;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 101 (65h) </h2>
+        <p>Set operator password </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{OpCode}&lt;SEP&gt;{OldPwd}&lt;SEP&gt;{NewPwd}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>OpCode</b> - Operator number ( 1...30 );</li>
+            <li><b>NewPwd</b> - Operator password ( Ascii string of digits, lenght 1...8 );</li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li><b>OldPwd</b> - Old operator password or administrator (oper29 &amp; oper30) password. Can be blank if service jumper is on;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 103 (67h) </h2>
+        <p>Information for the current receipt </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">none</div>
+        </div><!-- fragment --><p> <b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SumVATA}&lt;SEP&gt;{SumVATB}&lt;SEP&gt;{SumVATC}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b><b>SumVATx</b> -</b> The current accumulated sum on VATx ( 0.00...9999999.99 or 0...999999999 depending dec point position );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 105 (69h) </h2>
+        <p>Operators report </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{FirstOper}&lt;SEP&gt;{LastOper}&lt;SEP&gt;{Clear}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li><b>FirstOper</b> - First operator in the report ( 1...30 ). Default: 1;</li>
+            <li><b>LastOper</b> - Last operator in the report ( 1...30 ). Default: 30;</li>
+            <li>
+                <b>Clear</b> - Type of report. Default: 0;<ul>
+                    <li><b>'0'</b> - Operators report;</li>
+                    <li><b>'1'</b> - Operators report with clearing the operators registers;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 106 (6Ah) </h2>
+        <p>Drawer opening </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{mSec}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li><b>mSec</b> - The length of the impulse in milliseconds ( 0...65535 );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 107 (6Bh) </h2>
+        <p>Programming and reading items </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Option}&lt;SEP&gt;{Parameters}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p>
+            Mandatory parameters: {Option}<br />
+        </p><ul>
+            <li>
+                <b>'I'</b> - Items information;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;</div>
+                </div><!-- fragment --> <em>Answer(3)</em>
+            </li>
+            <li>
+                <b>'P'</b> - Item programming;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;{TaxGr}&lt;SEP&gt;{Dep}&lt;SEP&gt;{Group}&lt;SEP&gt;{PriceType}&lt;SEP&gt;{Price}&lt;SEP&gt;{AddQty}&lt;SEP&gt;{Quantity}&lt;SEP&gt;{Bar1}&lt;SEP&gt;{Name}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Mandatory parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 );</li>
+                    <li><b>TaxGr</b> - VAT group ( letter 'A' or 'B' or 'C' );</li>
+                    <li><b>Dep</b> - Department ( 1...16 );</li>
+                    <li><b>Group</b> - Item group ( 1...99 );</li>
+                    <li><b>PriceType</b> - Price type ('0' - fixed price, '1' - free price, '2' - max price);</li>
+                    <li><b>Price</b> - Price ( 0.00...9999999.99 );</li>
+                    <li><b>Quantity</b> - Stock quantity ( 0.001...99999.999 );</li>
+                    <li><b>Name</b> - Item name ( up to 32 symbols );</li>
+                </ul>
+                Optional parameters:<br />
+                <ul>
+                    <li><b>AddQty</b> - A byte with value 'A',</li>
+                    <li><b>Bar1</b> - Barcode 1 ( up to 13 digits );</li>
+                </ul>
+                <em>Answer(1)</em>
+            </li>
+            <li>
+                <b>'A'</b> - Change of the available quantity for item;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;{Quantity}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Mandatory parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 );</li>
+                    <li><b>Quantity</b> - Stock quantity ( 0.001...99999.999 );</li>
+                </ul>
+                <em>Answer(1)</em>
+            </li>
+            <li>
+                <b>'D'</b> - Item deleting;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{firstPLU}&lt;SEP&gt;{lastPLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Mandatory parameters:<br />
+                <ul>
+                    <li><b>firstPLU</b> - First item to delete ( 1...3000 ). If this parameter has value 'A', all items will be deleted (lastPLU must be empty);</li>
+                </ul>
+                Optional parameters:<br />
+                <ul>
+                    <li><b>lastPLU</b> - Last item to delete ( 1...3000 ). Default: {firstPLU} ;</li>
+                </ul>
+                <em>Answer(1)</em>
+            </li>
+            <li>
+                <b>'R'</b> - Reading item data;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Mandatory parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 );</li>
+                </ul>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'F'</b> - Returns data about the first found programmed item;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Optional parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 ). Default: 0;</li>
+                </ul>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'L'</b> - Returns data about the last found programmed item;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Optional parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 ). Default: 3000;</li>
+                </ul>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'N'</b> - Returns data for the next found programmed item;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;</div>
+                </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The same command with option 'F' or 'L' must be executed first. This determines whether to get next('F') or previous ('L') item;</dd></dl>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'f'</b> - Returns data about the first found item with sales on it;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Optional parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 ). Default: 0;</li>
+                </ul>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'l'</b> - Returns data about the last found item with sales on it;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Optional parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 ). Default: 3000;</li>
+                </ul>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'n'</b> - Returns data for the next found item with sales on it;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;</div>
+                </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The same command with option 'f' or 'l' must be executed first. This determines whether to get next('f') or previous ('l') item;</dd></dl>
+                <em>Answer(2)</em>
+            </li>
+            <li>
+                <b>'X'</b> - Find the first not programmed item;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Optional parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 ). Default: 0;</li>
+                </ul>
+                <em>Answer(4)</em>
+            </li>
+            <li>
+                <b>'x'</b> - Find the last not programmed item;<br />
+                Syntax: <div class="fragment">
+                    <div class="line">{Option}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+                </div><!-- fragment --> Optional parameters:<br />
+                <ul>
+                    <li><b>PLU</b> - Item number ( 1...3000 ). Default: 3000;</li>
+                </ul>
+                <em>Answer(4)</em>
+            </li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{PLU}&lt;SEP&gt;{TaxGr}&lt;SEP&gt;{Dep}&lt;SEP&gt;{Group}&lt;SEP&gt;{PriceType}&lt;SEP&gt;{Price}&lt;SEP&gt;{Turnover}&lt;SEP&gt;{SoldQty}&lt;SEP&gt;{StockQty}&lt;SEP&gt;{Bar1}&lt;SEP&gt;{Name}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>PLU</b> - Item number ( 1...3000 );</li>
+            <li><b>TaxGr</b> - VAT group ( letter 'A' or 'B' or 'C' );</li>
+            <li><b>Dep</b> - Department ( 1...16 );</li>
+            <li><b>Group</b> - Item group ( 1...99 );</li>
+            <li><b>PriceType</b> - Price type ( '0' - fixed price, '1' - free price, '2' - max price);</li>
+            <li><b>Price</b> - Price ( 0.00...9999999.99 );</li>
+            <li><b>Turnover</b> - Accumulated sum of the item ( 0.00...9999999.99 );</li>
+            <li><b>SoldQty</b> - Sold out quantity ( 0.001...99999.999 );</li>
+            <li><b>StockQty</b> - Current quantity ( 0.001...99999.999 );</li>
+            <li><b>Bar1</b> - Barcode 1 ( up to 13 digits );</li>
+            <li><b>Name</b> - Item name ( up to 32 symbols );</li>
+        </ul>
+        <p>
+            <b>Answer(3)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Total}&lt;SEP&gt;{Prog}&lt;SEP&gt;{NameLen}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Total</b> - Total count of the programmable items ( 3000 );</li>
+            <li><b>Prog</b> - Total count of the programmed items ( 0...3000 );</li>
+            <li><b>NameLen</b> - Maximum length of item name ( 32 );</li>
+        </ul>
+        <p>
+            <b>Answer(4)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{PLU}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>PLU</b> - Item number ( 1...3000 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 110 (6Eh) </h2>
+        <p>Additional daily information </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Optional parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of information. Default: 0;<ul>
+                    <li><b>'0'</b> - Payments in debit (cash and cashfree) receipts;</li>
+                    <li><b>'1'</b> - Payments in credit (cash and cashfree) receipts;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Pay0}&lt;SEP&gt;{Pay1}&lt;SEP&gt;{Pay2}&lt;SEP&gt;{Pay3}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li>
+                <b>PayX</b> - Amount ( 0.00...9999999.99 ) payed/returned by payment <b>X</b>;<ul>
+                    <li><b>'0'</b> - cash;</li>
+                    <li><b>'1'</b> - card;</li>
+                    <li><b>'2'</b> - credit;</li>
+                    <li><b>'3'</b> - tare;</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 111 (65h) </h2>
+        <p>PLU report </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{FirstPLU}&lt;SEP&gt;{LastPLU}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of report;<ul>
+                    <li><b>'0'</b> - PLU turnovers;</li>
+                    <li><b>'1'</b> - PLU turnovers with clearing;</li>
+                    <li><b>'2'</b> - PLU parameters;</li>
+                    <li><b>'3'</b> - PLU stock;</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li><b>FirstPLU</b> - First PLU in the report ( 1...3000 ). Default: 1;</li>
+            <li><b>LastPLU</b> - Last PLU in the report ( 1...3000 ). Default: 3000;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 112 (70h) </h2>
+        <p>Information for operator </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Operator}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Operator</b> - Number of operator ( 1...30 );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Receipts}&lt;SEP&gt;{Total}&lt;SEP&gt;{nDiscount}&lt;SEP&gt;{Discount}&lt;SEP&gt;{nSurcharge}&lt;SEP&gt;{Surcharge}&lt;SEP&gt;{nVoid}&lt;SEP&gt;{Void}&lt;SEP&gt;{nAllVoided}&lt;SEP&gt;{AllVoided}&lt;SEP&gt;{RetReceipts}&lt;SEP&gt;{RetTotal}&lt;SEP&gt;{RetnDiscount}&lt;SEP&gt;{RetDiscount}&lt;SEP&gt;{RetnSurcharge}&lt;SEP&gt;{RetSurcharge}&lt;SEP&gt;{RetnVoid}&lt;SEP&gt;{RetVoid}&lt;SEP&gt;{RetnAllVoided}&lt;SEP&gt;{RetAllVoided}&lt;SEP&gt;{nCashIn}&lt;SEP&gt;{CashIn}&lt;SEP&gt;{nCashOut}&lt;SEP&gt;{nCashOut}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Receipts</b> - Number of debit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>Total</b> - Sum of debit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>nDiscount</b> - Number of discounts in debit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>Discount</b> - Sum of discounts in debit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>nSurcharge</b> - Number of surcharges in debit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>Surcharge</b> - Sum of surcharges in debit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>nVoid</b> - Number of corrections in debit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>Void</b> - Sum of corrections in debit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>nAllVoided</b> - Number of all voided debit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>AllVoided</b> - Sum of all voided debit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>RetReceipts</b> - Number of credit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>RetTotal</b> - Sum of credit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>RetnDiscount</b> - Number of discounts in credit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>RetDiscount</b> - Sum of discounts in credit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>RetnSurcharge</b> - Number of surcharges in credit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>RetSurcharge</b> - Sum of surcharges in credit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>RetnVoid</b> - Number of corrections in credit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>RetVoid</b> - Sum of corrections in credit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>RetnAllVoided</b> - Number of all voided credit (cash and cashfree) receipts ( 1...99999999 );</li>
+            <li><b>RetAllVoided</b> - Sum of all voided credit (cash and cashfree) receipts ( 0.00...9999999.99 );</li>
+            <li><b>nCashIn</b> - Number of cash in operations ( 1...99999999 );</li>
+            <li><b>CashIn</b> - Sum of cash in operations ( 0.00...9999999.99 );</li>
+            <li><b>nCashOut</b> - Number of cash out operations ( 1...99999999 );</li>
+            <li><b>CashOut</b> - Sum of cash out operations ( 0.00...9999999.99 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 116 (74h) </h2>
+        <p>Reading FM </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Operation}&lt;SEP&gt;{Address}&lt;SEP&gt;{nBytes}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Operation</b> - Type of operation. Always = '0';</li>
+            <li><b>Address</b> - Start address;</li>
+            <li><b>nBytes</b> - Number of bytes;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Data}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Data</b> - Data read. Number of bytes is equal to <b>nBytes</b> requested;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 121 (79h) </h2>
+        <p>Read code memory block </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Address}&lt;SEP&gt;{nBytes}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li><b>Address</b> - Start address( HEX format ).</li>
+            <li><b>nBytes</b> - Number of bytes ( 1...64 ), ECR returns Answer (1). When nBytes is 0, ECR returns Answer (2).</li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Data}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Data</b> - The data, read from the code memory in hexadecimal form (2 symbols for each data byte).</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{SizeOfData}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>SizeOfData</b> - Size of code memory.</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 123 (7Bh) </h2>
+        <p>Device information </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Option}[&lt;SEP&gt;]</div>
+        </div><!-- fragment --><p>
+            Mandatory parameters: <br />
+        </p><ul>
+            <li>
+                <b>Option</b> - Type of information to return;<ul>
+                    <li><b>'1'</b> - Serial number, Header and Tax number; <em>Answer(1)</em> </li>
+                    <li><b>'2'</b> - APN and Server; <em>Answer(2)</em> </li>
+                    <li><b>'3'</b> - Last receipts and last Z-report; <em>Answer(3)</em> </li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{SerialNumber}&lt;SEP&gt;{Header line 1}&lt;SEP&gt;{Header line 2}&lt;SEP&gt;{TAXnumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>SerialNumber</b> - Serial Number ( Two letters and ten digits: GExxxxxxxxxx );</li>
+            <li><b>Header</b> line 1 - Supposed to contain Company name ( up to 48 symbols );</li>
+            <li><b>Header</b> line 2 - Supposed to contain Company address ( up to 48 symbols );</li>
+            <li><b>TAXnumber</b> - Taxpayer Number ( up to 12 symbols );</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{APN}&lt;SEP&gt;{APN username}&lt;SEP&gt;{APN password}&lt;SEP&gt;{Server address}&lt;SEP&gt;{Server port}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p>
+            <b>Answer(3)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{RecCashDeb}&lt;SEP&gt;{DateCashDeb}&lt;SEP&gt;{RecCashCred}&lt;SEP&gt;{DateCashCred}&lt;SEP&gt;{RecCashfreeDeb}&lt;SEP&gt;{DateCashfreeDeb}&lt;SEP&gt;{RecCashfreeCred}&lt;SEP&gt;{DateCashfreeCred}&lt;SEP&gt;{Znumber}&lt;SEP&gt;{Zdate}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>RecCashDeb</b> - Number of last cash debit receipt ( 1...99999999 );</li>
+            <li><b>DateCashDeb</b> - Date and time of last cash debit receipt ( format "DD-MM-YYYY hh:mm:ss" );</li>
+            <li><b>RecCashCred</b> - Number of last cash credit receipt ( 1...99999999 );</li>
+            <li><b>DateCashCred</b> - Date and time of last cash credit receipt ( format "DD-MM-YYYY hh:mm:ss" );</li>
+            <li><b>RecCashfreeDeb</b> - Number of last cashfree debit receipt ( 1...99999999 );</li>
+            <li><b>DateCashfreeDeb</b> - Date and time of last cashfree debit receipt ( format "DD-MM-YYYY hh:mm:ss" );</li>
+            <li><b>RecCashfreeCred</b> - Number of last cashfree credit receipt ( 1...99999999 );</li>
+            <li><b>DateCashfreeCred</b> - Date and time of last cashfree credit receipt ( format "DD-MM-YYYY hh:mm:ss" );</li>
+            <li><b>Znumber</b> - Number of last Z-report ( 1..3800 );</li>
+            <li><b>Zdate</b> - Date of last of Z-report ( format "DD-MM-YYYY hh:mm:ss" );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 124 (7Ch) </h2>
+        <p>Search documents in EJ by date </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{StartDate}&lt;SEP&gt;{EndDate}&lt;SEP&gt;DocType&lt;SEP&gt;</div>
+        </div><!-- fragment --><p>
+            Optional parameters: <br />
+        </p><ul>
+            <li><b>StartDate</b> - Start date for searching ( format "DD-MM-YY" ). Default: Date of first document;</li>
+            <li><b>EndDate</b> - End date for searching ( format "DD-MM-YY" ). Default: Date of last document;</li>
+            <li>
+                <b>DocType</b> - Type of document;<ul>
+                    <li><b>'0'</b> - all types;</li>
+                    <li><b>'1'</b> - fiscal receipts;</li>
+                    <li><b>'2'</b> - daily Z-reports;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DateFirst}&lt;SEP&gt;{DateLast}&lt;SEP&gt;{NumFirst}&lt;SEP&gt;{NumLast}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DateFirst</b> - Date of first document of <b>Type</b> in the period ( format "DD-MM-YY hh:mm:ss" );</li>
+            <li><b>DateLast</b> - Date of last document of <b>Type</b> in the period ( format "DD-MM-YY hh:mm:ss" );</li>
+            <li><b>NumFirst</b> - Number of first document of <b>Type</b> in the period ( 1...99999999 );</li>
+            <li><b>NumLast</b> - Number of last document of <b>Type</b> in the period ( 1...99999999 );</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 125 (7Dh) </h2>
+        <p>Information from EJ </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Option}&lt;SEP&gt;{DocNum}&lt;SEP&gt;{DocType}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Option</b> - Type of information;<ul>
+                    <li><b>'0'</b> - Set document to read; <em>Answer(1)</em> </li>
+                    <li><b>'1'</b> - Read one line as text. Must be called multiple times to read the whole document; <em>Answer(2)</em> </li>
+                    <li><b>'2'</b> - Read document data. Must be called multiple times to read the whole document; <em>Answer(3)</em> </li>
+                    <li><b>'3'</b> - Read signature data; <em>Answer(3)</em> </li>
+                </ul>
+            </li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li><b>DocNum</b> - Number of document ( 1...99999999 ). Needed for <b>Option</b> = 0;</li>
+            <li>
+                <b>DocType</b> - Type of document. Needed for <b>Option</b> = 0;<ul>
+                    <li><b>'0'</b> - all types;</li>
+                    <li><b>'1'</b> - fiscal receipts;</li>
+                    <li><b>'2'</b> - daily Z-reports;</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{DocNumber}&lt;SEP&gt;{RecNumber}&lt;SEP&gt;{Date}&lt;SEP&gt;{DocType}&lt;SEP&gt;{Znumber}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>DocNumber</b> - Global number of all documents ( 1...99999999 );</li>
+            <li><b>RecNumber</b> - Number of document depending on <b>Type:</b> global number of all documents ( 1...99999999 ) or current slip number ( 1...99999999 ) or number of Z-report ( 1...3800 );</li>
+            <li><b>Date</b> - Date of document ( format "DD-MM-YY hh:mm:ss" );</li>
+            <li>
+                <b>DocType</b> - Type of document;<ul>
+                    <li><b>'0'</b> - all types;</li>
+                    <li><b>'1'</b> - fiscal receipts;</li>
+                    <li><b>'2'</b> - daily Z-reports;</li>
+                </ul>
+            </li>
+            <li><b>Znumber</b> - Number of Z-report ( 1..3800 );</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{TextData}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>TextData</b> - Document text;</li>
+        </ul>
+        <p>
+            <b>Answer(3)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Data}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Data</b> - Document data or signature data;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 127 (7Fh) </h2>
+        <p>Stamp operations </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{Name}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of operation;<ul>
+                    <li><b>'0'</b> - Print stamp;</li>
+                    <li><b>'1'</b> - Rename loaded stamp with command 203;</li>
+                </ul>
+            </li>
+            <li><b>Name</b> - Name of stamp as filename in format 8.3;</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 144 (90h) </h2>
+        <p>Server operations </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Operation}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Operation:</b> <ul>
+                    <li><b>'1'</b> - Registration;</li>
+                    <li><b>'2'</b> - Deregistration;</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 203 (CAh) </h2>
+        <p>Stamp image loading. </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b>  Syntax 1: </p><div class="fragment">
+            <div class="line">{Parameter}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Parameter</b> - type of operation;<ul>
+                    <li><b>START</b> - Praparation for data loading; <em>Answer(1)</em> </li>
+                    <li><b>STOP</b> - End of data; <em>Answer(2)</em> </li>
+                    <li><b>YmFzZTY0ZGF0YQ==</b> - base64 coded data of the grahpic logo; <em>Answer(2)</em> </li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{Chechsum}</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>Chechsum</b> - Sum of decoded base64 data;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 253 (FDh) </h2>
+        <p>Entering of service parameters </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b>  Syntax 1: </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{Value}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of entered parameter;<ul>
+                    <li><b>'0'</b> - Service password (Password of the Service man);</li>
+                    <li><b>'10'</b> - Erase PLU database;</li>
+                </ul>
+            </li>
+            <li>
+                <b>Value</b> - Value of entered parameter;<ul>
+                    <li><b>Service</b> password (Password of the Service man). Text up to 8 symbols. The default password may be blank ( 0 symbols ) or "70";</li>
+                    <li><b>For</b> {Type} = 10, this parameter must be left blank;</li>
+                </ul>
+            </li>
+        </ul>
+        <dl class="section note"><dt>Note</dt><dd>Entering of the service password makes possible changing of some parameters with command 255 (including changing of the service password itself). Reading of the service password with command 255 is also possible only after entering of the service password. If service jumper is on, entering of the service password is not necessary;</dd></dl>
+        <p>Syntax 2: </p><div class="fragment">
+            <div class="line">{Type}&lt;SEP&gt;{Password}&lt;SEP&gt;{IMSI}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Type</b> - Type of entered parameter;<ul>
+                    <li><b>'1'</b> - Programming of SIM IMSI number;</li>
+                </ul>
+            </li>
+            <li><b>Password</b> - unique password ( max 10 digits );</li>
+            <li><b>IMSI</b> - IMSI number of the SIM card ( max 15 digits );</li>
+        </ul>
+        <p><b>Answer:</b> </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <hr />
+        <hr />
+        <hr />
+        <h2>Command: 255 (FFh) </h2>
+        <p>Programming </p><h2></h2>
+        <p><b>Parameters</b> <b>of</b> <b>the</b> <b>command:</b> </p><div class="fragment">
+            <div class="line">{Name}&lt;SEP&gt;{Index}&lt;SEP&gt;{Value}&lt;SEP&gt;</div>
+        </div><!-- fragment --><p> Mandatory parameters:</p><ul>
+            <li>
+                <b>Name</b> - Variable name;<ul>
+                    <li>
+                        <b>Device</b> <b>settings</b>;<ul>
+                            <li><b>FpComPort</b> - Number of COM port for communication with PC ( 0 - disable, 1 - COM1, 2 - COM2 );</li>
+                            <li><b>FpComBaudRate</b> - Baud rate of COM port for communication with PC ( from 0 to 9 );</li>
+                            <li><b>ComPortDevice</b> - Assign peripheral device to COM port ( 0 - none, 1 - barcode, 2 - scale, 3 - external display ). Number of COM port is determined by <b>"Index"</b>;</li>
+                            <li><b>ComPortBaudRate</b> - Baud rate of COM port that has peripheral device assigned( from 0 to 9 ). Number of COM port is determined by <b>"Index"</b>;</li>
+                            <li><b>ComPortProtocol</b> - Protocol for communication with peripheral device assigned to COM port ( from 0 to 9 ). Number of COM port is determined by <b>"Index"</b>;</li>
+                            <li><b>AutoPaperCutting</b> - Permission/rejection of the automatic cutting of paper after each receipt. ( 1 - permitted, 0 - rejected ) (FP-705 only);</li>
+                            <li><b>PaperCuttingType</b> - Partial=0/Full=1 cutting of paper (FP-705 only);</li>
+                            <li><b>BarCodeHeight</b> - Barcode height from '1' (7mm) to '10' (70mm);</li>
+                            <li><b>BarcodeName</b> - Enagle/Disable printing of the barcode data;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>ECR</b> <b>parameters</b>;<ul>
+                            <li><b>EcrLogNumber</b> - Logical number in the workplace ( 1..999 );</li>
+                            <li><b>EcrWithoutPasswords</b> - Work without passwords ( 1 - enable, 0 - disable );</li>
+                            <li>
+                                <b>EcrSafeOpening</b> - Open drawer on every total ( 1 - enable, 0 - disable ) <dl class="section note"><dt>Note</dt><dd>not applied to DP-05;</dd></dl>
+                            </li>
+                            <li><b>EcrPluDailyClearing</b> - When making Z-report, automatically clear PLU turnover ( 1 - enable, 0 - disable );</li>
+                            <li><b>EcrPluStockControl</b> - Flag "Items stock control" ( 1 - enable, 0 - disable );</li>
+                            <li><b>EcrNumberBarcode</b> - Count of used barcodes for each programmed item ( 1...4 );</li>
+                            <li><b>EcrScaleBarMask</b> - Text up to 10 digits. If the second digit of a weight barcode (barcode with first digit = 2) matches any of the digits in this string, barcode will be interpreted as weight barcode, otherwise will be interpreted as normal barcode;</li>
+                            <li><b>EcrConnectedCashReport</b> - When making Z-report, automatically make "Cash report" ( 1 - enable, 0 - disable );</li>
+                            <li><b>EcrConnectedOperReport</b> - When making Z-report, automatically make "Operator report" ( 1 - enable, 0 - disable );</li>
+                            <li><b>EcrConnectedGroupReport</b> - When making Z-report, automatically make "Report by departments and item groups" ( 1 - enable, 0 - disable );</li>
+                            <li><b>EcrConnectedPluSalesReport</b> - When making Z-report, automatically make "Report by PLU with turnovers" ( 1 - enable, 0 - disable );</li>
+                            <li><b>AutoPowerOff</b> - Minutes to automatically turn off ECR if it is idle. ( 0 - disable, from 1 minute to 15 minutes );</li>
+                            <li><b>BkLight_AutoOff</b> - Minutes to automatically turn off Backlight of the display if ECR is idle. ( 0 - disable, from 1 minute to 5 minutes );</li>
+                            <li>
+                                <b>WorkBatteryIncluded</b> - Ecr works with battery on main supply ( 1 - enable; 0 - disable) <dl class="section note"><dt>Note</dt><dd>internal use only;</dd></dl>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Receipt</b> <b>parameters</b>;<ul>
+                            <li><b>PrnQuality</b> - Contrast of Printing ( from 0 to 20 );</li>
+                            <li><b>VatPrintEnable</b> - Flag "Print taxes in the receipt" ( 1 - enable, 0 - disable );</li>
+                            <li><b>TypeOfCurrencyEntering</b> - Flag "Numbers entering";</li>
+                            <li><b>SalesLimit</b> - Limit of sale. Value is in cents. ( from 0 to 999999999 ). Default: 999999999. Max value of {Quantity} * {Price} is limited by a parameter;</li>
+                            <li><b>PrintSingleUnitPrc</b> - Print single unit price in receipt ( 1 - enable; 0 - disable)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Header</b> <b>of</b> <b>the</b> <b>receipt</b>;<ul>
+                            <li><b>Header</b> - Text up to 32 symbols. Header line is determined by <b>"Index"</b>. Index 0 is for line 1, Index 5 is for line 6;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Footer</b> <b>of</b> <b>the</b> <b>receipt</b>;<ul>
+                            <li><b>Footer</b> - Text up to 32 symbols. Footer line is determined by <b>"Index"</b>. Index 0 is for line 1, Index 5 is for line 6;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Operators</b>;<ul>
+                            <li><b>OperName</b> - Name of operator. Text up to 20 symbols. Number of operator is determined by <b>"Index"</b>;</li>
+                            <li><b>OperPasw</b> - Password of operator. Text up to 8 digits. Number of operator is determined by <b>"Index"</b>;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Item</b> <b>Groups</b>;<ul>
+                            <li><b>ItemGroups_name</b> - Name of item group. Text up to 32 symbols. Number of item group is determined by <b>"Index"</b>;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Departments</b>;<ul>
+                            <li><b>Dept_name</b> - Name of department. Text up to 32 symbols. Number of department is determined by <b>"Index"</b>;</li>
+                            <li><b>Dept_price</b> - Price of department; Number of department is determined by <b>"Index"</b>;</li>
+                            <li><b>Dept_vat</b> - VAT group of department. Number of department is determined by <b>"Index"</b>;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Payments</b>;<ul>
+                            <li>
+                                <b>PayName</b> - Name of payment. Text up to 16 symbols. Number of payment is determined by <b>"Index"</b>; <dl class="section note"><dt>Note</dt><dd>If a payment name is blank or equal to " ", using of this payment is impossible. Default payment names are: "CASH", "CARD", " ", " ".</dd></dl>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Service</b> <b></b>( <b>Service</b> <b>password</b> <b>or</b> <b>service</b> <b>jumper</b> <b>is</b> <b>required</b> <b></b>);<ul>
+                            <li>
+                                <b>ServPasw</b> - Service password (Password of the Service man). Text up to 8 symbols. Default: blank ( 0 symbols ) or "70"; <dl class="section note"><dt>Note</dt><dd>Using of letters instead of digits is allowed, but this will make impossible entering the Service mode (Mode 7 of Main Menu) using the ECR keyboard.</dd></dl>
+                            </li>
+                            <li><b>ServMessage</b> - Message that will be printed when "ServDate" is reached. Message line is determined by <b>"Index"</b>;</li>
+                            <li><b>ServiceBlockDate</b> - Date of blocking of the ECR by Service man;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Modem</b> <b>and</b> <b>network</b> <b></b>( <b>Service</b> <b>password</b> <b>or</b> <b>service</b> <b>jumper</b> <b>is</b> <b>required</b> <b></b>);<ul>
+                            <li><b>APN</b> - Access Point Name. Text up to 64 symbols. Number of APN is determined by <b>"Index"</b>;</li>
+                            <li><b>APN_User</b> - APN Username. Text up to 32 symbols. Number of APN is determined by <b>"Index"</b>;</li>
+                            <li><b>APN_Pass</b> - APN Password. Text up to 32 symbols. Number of APN is determined by <b>"Index"</b>;</li>
+                            <li><b>ModemModel</b> - Modem Model ( 0=Quectel M72 );</li>
+                            <li><b>SimIMSI</b> - IMSI number read from SIM ( <b>Read</b> <b>Only</b> <b></b>);</li>
+                            <li><b>PgmIMSI</b> - Programmed IMSI number - used for comparing with the IMSI number read from SIM ( <b>Read</b> <b>Only</b> <b></b>);</li>
+                            <li><b>FlagPgmIMSI</b> - Flag "Compare the programmed IMSI number with the IMSI number read from SIM" ( 1 - enable, 0 - disable );</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Tax</b> <b>server</b> <b>parameters</b> <b></b>( <b>Service</b> <b>password</b> <b>or</b> <b>service</b> <b>jumper</b> <b>is</b> <b>required</b> <b></b>);<ul>
+                            <li><b>DtServerAddress</b> - IP address or name of server ( up to 127 symbols );</li>
+                            <li><b>DtServerPort</b> - port of server ( 0 ... 65535 );</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Variables</b> <b>for</b> <b>FM</b> <b></b>( <b>Read</b> <b>Only</b> <b></b>);<ul>
+                            <li><b>nZreport</b> - Number of current Z-report;</li>
+                            <li><b>nReset</b> - Number of current memory failure;</li>
+                            <li><b>nVatChanges</b> - Number of current VAT change;</li>
+                            <li><b>nIDnumberChanges</b> - Number of current SN changes ( 0 - not programmed; 1 - programmed );</li>
+                            <li><b>nTAXnumber2Changes</b> - Number of current TAX number changes ( 0 - not programmed; 1 - programmed );</li>
+                            <li><b>valVat</b> - Current value of VAT. Number of VAT is determined by <b>"Index"</b>;</li>
+                            <li><b>IDnumber</b> - Serial number of the ECR;</li>
+                            <li><b>TAXnumber2</b> - TAX number;</li>
+                            <li><b>FmWriteDateTime</b> - Date and time for writing block to FM;</li>
+                            <li><b>LastValiddate</b> - Last valid date ( written to FM or EJ );</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Internal</b> <b>variables</b> <b></b>( <b>Read</b> <b>Only</b> <b></b>);<ul>
+                            <li><b>Fiscalized</b> - Flag that shows if ECR is fiscalized ( 1 - fiscalized, 0 - not fiscalized );</li>
+                            <li><b>DFR_needed</b> - Flag that shows if there is a fiscal receipt issued after last Z-report ( 1 - issued, 0 - not issued );</li>
+                            <li><b>DecimalPoint</b> - Number of symbols after decimal point;</li>
+                            <li><b>nBon</b> - Global number of all documents ( 1...99999999 );</li>
+                            <li><b>nFBonUnique</b> - Global slip number - unique number of the fiscal receipt (1...99999999);</li>
+                            <li><b>nFBon</b> - Global numbers of fiscal receipts of each type. Type is determined by <b>"Index"</b>;</li>
+                            <li><b>nFBonDailyCount</b> - Number of fiscal receipts of each type.for current Z-report. Type is determined by <b>"Index"</b>;</li>
+                            <li><b>CurrClerk</b> - Number of current operator;</li>
+                            <li><b>DtRegistrationState</b>;</li>
+                            <li><b>DtRegistrationSamNumber</b>;</li>
+                            <li><b>DtLastSent</b>;</li>
+                            <li><b>DtDateOfflineBeg</b> - Date and time for 72 hour blocking;</li>
+                            <li><b>DtDateZreportBeg</b> - Date and time for 24 hour blocking;</li>
+                            <li><b>DtErrorFromSam</b>;</li>
+                            <li><b>DtErrorFromServer</b>;</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <p>Optional parameters:</p><ul>
+            <li>
+                <b>Index</b> - Used for index if variable is array. If variable is not array, "Index" must be left blank. Default: 0; <dl class="section note"><dt>Note</dt><dd>For example: Header[] - index 0 refers to line 1, index 5 refers to line 6;</dd></dl>
+            </li>
+            <li><b>Value</b> - If this parameter is blank, ECR will return current value ( <em>Answer(2)</em> ). If the value is set, then ECR will program this value ( <em>Answer(1)</em> );</li>
+        </ul>
+        <p>
+            <b>Answer(1)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+        </ul>
+        <p>
+            <b>Answer(2)</b>:<br />
+        </p><div class="fragment">
+            <div class="line">{ErrorCode}&lt;SEP&gt;{VarValue}&lt;SEP&gt;</div>
+        </div><!-- fragment --><ul>
+            <li><b>ErrorCode</b> - Indicates an error code. If command passed, <b>ErrorCode</b> is 0;</li>
+            <li><b>VarValue</b> - Current value of the variable;</li>
+        </ul>
+        <hr />
+    </div>
+</body>
+</html>

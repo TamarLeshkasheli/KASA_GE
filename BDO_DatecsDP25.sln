@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDO_DatecsDP25_2.0", "BDO_DatecsDP25_2.0\BDO_DatecsDP25_2.0.csproj", "{045BAFCD-928E-4EF7-82D3-4E99389DC057}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDO_DatecsDP25_4.5", "BDO_DatecsDP25_4.5\BDO_DatecsDP25_4.5.csproj", "{90B4C347-2671-4A38-BCC5-09A543E1F05F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{8110CEE8-DB34-44E2-AA43-CE73B3354B97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DA28E9E7-319C-449B-98B0-34EEA8ABC8A6}"
+	ProjectSection(SolutionItems) = preProject
+		docs\123.txt = docs\123.txt
+		docs\FPCommands.html = docs\FPCommands.html
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
