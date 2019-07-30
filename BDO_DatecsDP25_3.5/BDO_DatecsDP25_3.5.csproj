@@ -59,86 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Commands\Enums.cs">
-      <Link>Commands\Enums.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Core\FiscalIOException.cs">
-      <Link>Core\FiscalIOException.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Core\FiscalResponse.cs">
-      <Link>Core\FiscalResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Core\IFiscalResponse.cs">
-      <Link>Core\IFiscalResponse.cs</Link>
+    <Compile Include="..\BDO_DatecsDP25_2.0\DatecProtocol.cs">
+      <Link>DatecProtocol.cs</Link>
     </Compile>
     <Compile Include="..\BDO_DatecsDP25_2.0\Datecs.cs">
       <Link>Datecs.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Dp25.cs">
-      <Link>Dp25.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\fp700printer.cs">
-      <Link>fp700printer.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\AddTextToFiscalReceiptResponse.cs">
-      <Link>Responses\AddTextToFiscalReceiptResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\CalculateTotalResponse.cs">
-      <Link>Responses\CalculateTotalResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\CashInCashOutResponse.cs">
-      <Link>Responses\CashInCashOutResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\CloseFiscalReceiptResponse.cs">
-      <Link>Responses\CloseFiscalReceiptResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\CommonFiscalResponse.cs">
-      <Link>Responses\CommonFiscalResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\EmptyFiscalResponse.cs">
-      <Link>Responses\EmptyFiscalResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\GetLastFiscalEntryInfoResponse.cs">
-      <Link>Responses\GetLastFiscalEntryInfoResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\GetStatusOfCurrentReceiptResponse.cs">
-      <Link>Responses\GetStatusOfCurrentReceiptResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\LoadStampImageResponse.cs">
-      <Link>Responses\LoadStampImageResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\OpenFiscalReceiptResponse.cs">
-      <Link>Responses\OpenFiscalReceiptResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\PrintReportResponse.cs">
-      <Link>Responses\PrintReportResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\PrintStampResponse.cs">
-      <Link>Responses\PrintStampResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\ProgrammingResponse.cs">
-      <Link>Responses\ProgrammingResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\ReadDateTimeResponse.cs">
-      <Link>Responses\ReadDateTimeResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\ReadErrorResponse.cs">
-      <Link>Responses\ReadErrorResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\ReadStatusResponse.cs">
-      <Link>Responses\ReadStatusResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\RegisterSaleResponse.cs">
-      <Link>Responses\RegisterSaleResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\SubTotalResponse.cs">
-      <Link>Responses\SubTotalResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Responses\VoidOpenFiscalReceiptResponse.cs">
-      <Link>Responses\VoidOpenFiscalReceiptResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BDO_DatecsDP25_2.0\Utils\Extensions.cs">
-      <Link>Utils\Extensions.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
