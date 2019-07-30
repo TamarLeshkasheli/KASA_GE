@@ -10,23 +10,28 @@ namespace TestApp
         {
             var datec = new Datecs();
 
-            var r = datec.InitDp25("com10");
             var s = datec.ReadStatus();
-
-            r = datec.Exec(100,"-112001");
-            r = datec.Exec(60);
+            var r = datec.InitDp25("com10");
             s = datec.ReadStatus();
-            
-            r = datec.Exec(48, "1", "1", "1", "0");
-            r = datec.Exec(49, "ყველი", "1", "250000.00", "1", "", "", "1");
-            r = datec.Exec(49, "პური", "1", "250000.00", "1", "", "", "1");
-            r = datec.Exec(49, "ხაჭაპური", "1", "250000.00", "1", "", "", "1");
-            r = datec.Exec(49, "წიწილა", "1", "250000.00", "1", "", "", "1");
-            r = datec.Exec(51, "1", "", "", "");
-            r = datec.Exec(53, "0", "");
-            r = datec.Exec(56);
 
+            r = datec.Exec(100, "-110024");
 
+            // ზეტის დაბეჭდვა
+            //r = datec.Exec(69,"Z");
+
+            // ფისკალური ჩეკის გაუქმება
+            //r = datec.Exec(60);
+            //r = datec.Exec(39);
+
+            // ფისკალური ჩეკის ბეჭდვა
+            //r = datec.Exec(48, "1", "1", "1", "0");
+            //r = datec.Exec(49, "ყველი", "1", "25.00", "1", "", "", "1");
+            //r = datec.Exec(49, "პური", "1", "25.00", "1", "", "", "1");
+            //r = datec.Exec(49, "ხაჭაპური", "1", "25.00", "1", "", "", "1");
+            //r = datec.Exec(49, "წიწილა", "1", "25.00", "1", "", "", "1");
+            //r = datec.Exec(51, "1", "", "", "");
+            //r = datec.Exec(53, "", "");
+            //r = datec.Exec(56);
         }
 
     }
